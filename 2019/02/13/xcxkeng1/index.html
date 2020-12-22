@@ -6,15 +6,24 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Archives | ScorpioN</title>
+  <title>记录一个微信小程序遇到的奇怪的坑... | ScorpioN</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="ScorpioN">
-<meta property="og:url" content="http://example.com/archives/index.html">
+  <meta name="description" content="今天准备搞的是发帖可以选择模块，然后看帖子也可以选择模块（就类似于百度贴吧分的什么吧什么吧那种），然后基本功能我都实现了，可是在将数据存入数据库时遇见了一个奇怪的问题…  大概来说是这样的，我的思路是在发帖的时候会弹出一个列表，让你选择发到哪一个模块：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="记录一个微信小程序遇到的奇怪的坑...">
+<meta property="og:url" content="http://example.com/2019/02/13/xcxkeng1/index.html">
 <meta property="og:site_name" content="ScorpioN">
+<meta property="og:description" content="今天准备搞的是发帖可以选择模块，然后看帖子也可以选择模块（就类似于百度贴吧分的什么吧什么吧那种），然后基本功能我都实现了，可是在将数据存入数据库时遇见了一个奇怪的问题…  大概来说是这样的，我的思路是在发帖的时候会弹出一个列表，让你选择发到哪一个模块：">
 <meta property="og:locale">
+<meta property="og:image" content="http://example.com/2019/02/13/xcxkeng1/xcxkeng1/choosemodule.png">
+<meta property="og:image" content="http://example.com/2019/02/13/xcxkeng1/xcxkeng1/modal.png">
+<meta property="article:published_time" content="2019-02-12T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-08-20T06:17:44.400Z">
 <meta property="article:author" content="ScorpioN">
+<meta property="article:tag" content="微信小程序">
+<meta property="article:tag" content="JS">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2019/02/13/xcxkeng1/xcxkeng1/choosemodule.png">
   
     <link rel="alternative" href="/atom.xml" title="ScorpioN" type="application/atom+xml">
   
@@ -140,414 +149,240 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-xcxkeng1" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      记录一个微信小程序遇到的奇怪的坑...
+    </h1>
+  
+
+        
+        <a href="/2019/02/13/xcxkeng1/" class="archive-article-date">
+  	<time datetime="2019-02-12T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-13</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>今天准备搞的是发帖可以选择模块，然后看帖子也可以选择模块（就类似于百度贴吧分的什么吧什么吧那种），然后基本功能我都实现了，可是在将数据存入数据库时遇见了一个奇怪的问题…</p>
+</blockquote>
+<p>大概来说是这样的，我的思路是在发帖的时候会弹出一个列表，让你选择发到哪一个模块：</p>
+<a id="more"></a>
+
+<img src="xcxkeng1\choosemodule.png" style="zoom:50%;" />
+
+<p>这个列表里的元素是我从数据库中的模块表获取的，同时获取每个模块的名字和ID，点击的时候就直接发帖，然后把模块的名字和ID和帖子内容一起存到帖子表里去。我遇到的问题就是电脑端可以正常工作，但是在手机端测试的时候模块名和ID存不到数据库中去。</p>
+<p>先看看我的wxml:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">&lt;view class&#x3D;&quot;content&quot;&gt;</span><br><span class="line">  &lt;form bindsubmit&#x3D;&quot;formSubmit&quot;&gt;</span><br><span class="line">    &lt;view class&#x3D;&quot;text-content&quot;&gt;</span><br><span class="line">      &lt;view class&#x3D;&#39;title-area&#39;&gt;</span><br><span class="line">        &lt;textarea name&#x3D;&quot;input-title&quot; type&#x3D;&quot;text&quot; placeholder&#x3D;&quot;添加标题, 最多18字哦~&quot; maxlength&#x3D;&quot;&#123;&#123;18&#125;&#125;&quot; placeholder-class&#x3D;&quot;holder&quot; value&#x3D;&quot;&#123;&#123;textTitle&#125;&#125;&quot; bindblur&#x3D;&#39;getTextAreaContent&#39; style&#x3D;&quot;width:600px; height:30px;&quot;&gt;&lt;&#x2F;textarea&gt;   </span><br><span class="line">      &lt;&#x2F;view&gt;&lt;view class&#x3D;&quot;divLine&quot;&gt;&lt;&#x2F;view&gt;</span><br><span class="line">      &lt;view class&#x3D;&#39;text-area&#39;&gt;</span><br><span class="line">        &lt;textarea name&#x3D;&quot;input-content&quot; type&#x3D;&quot;text&quot; placeholder&#x3D;&quot;说点什么吧~&quot; maxlength&#x3D;&quot;&#123;&#123;120&#125;&#125;&quot; placeholder-class&#x3D;&quot;holder&quot; value&#x3D;&quot;&#123;&#123;textContent&#125;&#125;&quot; bindblur&#x3D;&#39;getTextAreaContent2&#39;&gt;&lt;&#x2F;textarea&gt;</span><br><span class="line">      &lt;&#x2F;view&gt;</span><br><span class="line">    &lt;&#x2F;view&gt;</span><br><span class="line">    &lt;scroll-view class&#x3D;&quot;image-group&quot; scroll-x&#x3D;&quot;true&quot;&gt;</span><br><span class="line">      &lt;block wx:for&#x3D;&#39;&#123;&#123;images&#125;&#125;&#39; wx:for-index&#x3D;&#39;idx&#39;&gt;</span><br><span class="line">      &lt;view&gt;</span><br><span class="line">        &lt;image src&#x3D;&#39;&#123;&#123;images[idx]&#125;&#125;&#39; mode&#x3D;&#39;aspectFill&#39; bindtap&#x3D;&quot;previewImg&quot;&gt;&lt;&#x2F;image&gt;</span><br><span class="line">        &lt;icon type&#x3D;&#39;clear&#39; bindtap&#x3D;&#39;removeImg&#39;  data-index&#x3D;&quot;&#123;&#123;idx&#125;&#125;&quot; &gt;&lt;&#x2F;icon&gt;</span><br><span class="line">      &lt;&#x2F;view&gt;</span><br><span class="line">      &lt;&#x2F;block&gt;    </span><br><span class="line">    &lt;&#x2F;scroll-view&gt;</span><br><span class="line">    &lt;view class&#x3D;&#39;btn-func&#39;&gt;</span><br><span class="line">      &lt;button class&#x3D;&quot;btn-img&quot; bindtap&#x3D;&#39;chooseImage&#39;&gt;选择图片&lt;&#x2F;button&gt;</span><br><span class="line">      &lt;button class&#x3D;&quot;btn&quot;  open-type&#x3D;&quot;getUserInfo&quot; bindtap&#x3D;&quot;powerDrawer&quot; data-statu&#x3D;&quot;open&quot;&gt;发布帖子&lt;&#x2F;button&gt;</span><br><span class="line">    &lt;&#x2F;view&gt;</span><br><span class="line">    &lt;view class&#x3D;&quot;drawer_screen&quot; bindtap&#x3D;&quot;powerDrawer&quot; data-statu&#x3D;&quot;close&quot; wx:if&#x3D;&quot;&#123;&#123;showModalStatus&#125;&#125;&quot;&gt;&lt;&#x2F;view&gt;</span><br><span class="line">          &lt;view class&#x3D;&#39;te&#39; wx:if&#x3D;&quot;&#123;&#123;showModalStatus&#125;&#125;&quot;&gt;请选择要发布的模块(点此取消):&lt;&#x2F;view&gt;</span><br><span class="line">          &lt;scroll-view scroll-y&#x3D;&quot;true&quot; animation&#x3D;&quot;&#123;&#123;animationData&#125;&#125;&quot; class&#x3D;&quot;drawer_attr_box&quot; wx:if&#x3D;&quot;&#123;&#123;showModalStatus&#125;&#125;&quot;&gt;</span><br><span class="line">          &lt;view  class&#x3D;&quot;drawer_content&quot; &gt;    </span><br><span class="line">            &lt;block wx:for&#x3D;&#39;&#123;&#123;module&#125;&#125;&#39; wx:key&#x3D;&quot;navItems&quot; wx:for-index&#x3D;&#39;idx&#39; &gt;</span><br><span class="line">            &lt;view class&#x3D;&#39;n&#39; bindtap&#x3D;&#39;getTextAreaContent3&#39; data-moduleid&#x3D;&#39;&#123;&#123;item.moduleID&#125;&#125;&#39; data-modulename&#x3D;&#39;&#123;&#123;item.module&#125;&#125;&#39;&gt;</span><br><span class="line">            &lt;view class&#x3D;&#39;line&#39;&gt;&lt;&#x2F;view&gt;</span><br><span class="line">            &lt;button class&#x3D;&quot;drawer_title&quot; form-type&#x3D;&#39;submit&#39;&gt;&#123;&#123;item.module&#125;&#125;&lt;&#x2F;button&gt; </span><br><span class="line">            &lt;&#x2F;view&gt;</span><br><span class="line">            &lt;&#x2F;block&gt;</span><br><span class="line">            &lt;view class&#x3D;&#39;line&#39;&gt;&lt;&#x2F;view&gt;</span><br><span class="line">          &lt;&#x2F;view&gt;    </span><br><span class="line">          &lt;&#x2F;scroll-view&gt;</span><br><span class="line">  &lt;&#x2F;form&gt;</span><br><span class="line">&lt;&#x2F;view&gt;</span><br></pre></td></tr></table></figure>
+<p>可以看到我的外层用一个form圈起来，绑定的是formSubmit方法，然后button “drawer_title”就是列表里的元素，点击它就会产生submit。然后我的模块名和模块ID用data-moduleid=’‘ data-modulename=’‘传到后台。</p>
+<p>JS页面用”getTextAreaContent3”方法获取：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">getTextAreaContent3: function (event) &#123;</span><br><span class="line">  this.data.mo &#x3D; event.currentTarget.dataset.moduleid;</span><br><span class="line">  this.data.moname &#x3D; event.currentTarget.dataset.modulename;</span><br><span class="line">  console.log(&#39;测试3&#39;, app.globalData.mo);</span><br><span class="line">  console.log(&#39;测试4&#39;, app.globalData.moname);</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<p>然后再将他们存入数据库。但是我在电脑端测试的时候一切正常，手机端就怎么都存不上。经过半天摸索我发现上面的测试3、测试4总是在手机端发完帖子的log出现后才会冒出来，电脑端则是正常顺序。于是我就猜会不会是我给button绑定了submit，又在button外面一层view绑定了获取数据方法，它们在手机端运行的时候就会产生一个先后次序，比如submit先执行，这样的话就无法将模块名和模块ID存入数据库了。</p>
+<p>那怎么把这两个东西给分开执行呢？我想到了微信小程序官方提供的弹出框wx.showModal。</p>
+<p>我在formSubmit方法中加入一个showModal，在用户点击确认后再执行存入数据库的方法，这样是不是就可以了？于是我在formSubmit中加入了下面代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">   wx.showModal(&#123;</span><br><span class="line">     title: &#39;提示&#39;,</span><br><span class="line">     content: &#39;确认发布吗？&#39;,</span><br><span class="line">     success: function (res) &#123;</span><br><span class="line">       if (res.confirm) &#123;</span><br><span class="line">         &#x2F;&#x2F; console.log(&#39;用户点击确定&#39;)</span><br><span class="line">that.saveDataToServer(); &#x2F;&#x2F;点击确认才执行</span><br><span class="line">       &#125; else if (res.cancel) &#123;</span><br><span class="line">         &#x2F;&#x2F; console.log(&#39;用户点击取消&#39;)</span><br><span class="line">       &#125;</span><br><span class="line">     &#125;</span><br><span class="line">   &#125;) </span><br></pre></td></tr></table></figure>
+<p>效果如下：</p>
+<img src="xcxkeng1\modal.png" style="zoom:50%;" />
+
+<p>点击确认就可以发帖子了。</p>
+<p>这时候我发现果然可以将模块名和模块ID存入数据库了，测试3和测试4的顺序也在发布成功log前了，果然它们是有冲突的，，，，但是为什么开发者工具上模拟测试就不会出现这种情况呢。。。？？？</p>
+<p>不知道我的想法对不对，但是解决了这个问题，属实花了我半天的时间。。。。。我佛了</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="https://github.com/scorpionedge/scorpionedge.github.io/blob/master/images/alipay.jpg?raw=true">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/12/22/hello-world/" class="archive-article-date">
-  	<time datetime="2020-12-22T02:17:10.299Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-12-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/12/22/hello-world/">Hello World</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/12/22/pythonExcel/" class="archive-article-date">
-  	<time datetime="2020-12-21T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-12-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/12/22/pythonExcel/">使用python操作excel表格进行简单的数据处理</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">微信小程序</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">xlrd</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">JS</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2019/02/13/xcxkeng1/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/10/30/leetcode01/" class="archive-article-date">
-  	<time datetime="2020-10-29T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-30</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2019/02/17/wxxcxNewMessage/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          关于微信小程序社区讨论新消息提示的解决思路
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/02/09/wxxcxReply/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">微信小程序之社区讨论模块（二）评论+我的消息</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/10/30/leetcode01/">小笔记01</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">leetcode</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    目录，不存在的…
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+        
+    </div>
+</aside>
+
+
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/08/20/SpringBoot1/" class="archive-article-date">
-  	<time datetime="2020-08-19T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-20</time>
-</a>
-        </div>
-    	 
+  <div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="xcxkeng1" data-title="记录一个微信小程序遇到的奇怪的坑..." data-url="http://example.com/2019/02/13/xcxkeng1/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/08/20/SpringBoot1/">创建一个Spring Boot项目</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Spring Boot</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/08/05/UnableConnDB/" class="archive-article-date">
-  	<time datetime="2020-08-04T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/08/05/UnableConnDB/">关于数据库工具（WorkBench等）连接不上阿里云服务器上的MySQL数据库的解决方法</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">防火墙</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">数据库连接失败</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/08/04/yunduanBushu/" class="archive-article-date">
-  	<time datetime="2020-08-03T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-04</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/08/04/yunduanBushu/">将本地Java后台项目部署至阿里云服务器（Ubuntu）</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">项目部署</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/02/29/wxgzhReply/" class="archive-article-date">
-  	<time datetime="2020-02-28T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/02/29/wxgzhReply/">微信公众号之自动回复</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">微信公众号</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">PHP</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/02/25/PHPwxgzh/" class="archive-article-date">
-  	<time datetime="2020-02-24T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/02/25/PHPwxgzh/">PHP之服务器连接微信公众号</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">php</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">微信公众号</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/02/14/fenpingmian/" class="archive-article-date">
-  	<time datetime="2020-02-13T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-14</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/02/14/fenpingmian/">直线、切线切分平面问题</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">acm</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/01/05/hduoj1/" class="archive-article-date">
-  	<time datetime="2020-01-04T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/01/05/hduoj1/">贪心算法和动态规划问题</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">动态规划</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">贪心算法</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="extend next" rel="next" href="/archives/page/2/">Next &amp;raquo;</a>
-    </nav>
   
 
 
@@ -571,8 +406,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

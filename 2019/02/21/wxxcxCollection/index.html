@@ -6,15 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Archives | ScorpioN</title>
+  <title>微信小程序社区讨论之收藏功能 | ScorpioN</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="ScorpioN">
-<meta property="og:url" content="http://example.com/archives/index.html">
+  <meta name="description" content="最近弄了个可以收藏帖子的功能，大概的效果如下：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="微信小程序社区讨论之收藏功能">
+<meta property="og:url" content="http://example.com/2019/02/21/wxxcxCollection/index.html">
 <meta property="og:site_name" content="ScorpioN">
+<meta property="og:description" content="最近弄了个可以收藏帖子的功能，大概的效果如下：">
 <meta property="og:locale">
+<meta property="og:image" content="http://116.62.150.158/pic/wxxcxCollection/col.gif">
+<meta property="og:image" content="http://example.com/2019/02/21/wxxcxCollection/wxxcxCollection%5Cdb.png">
+<meta property="article:published_time" content="2019-02-20T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-08-20T06:18:11.200Z">
 <meta property="article:author" content="ScorpioN">
+<meta property="article:tag" content="微信小程序">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://116.62.150.158/pic/wxxcxCollection/col.gif">
   
     <link rel="alternative" href="/atom.xml" title="ScorpioN" type="application/atom+xml">
   
@@ -140,414 +148,226 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-wxxcxCollection" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      微信小程序社区讨论之收藏功能
+    </h1>
+  
+
+        
+        <a href="/2019/02/21/wxxcxCollection/" class="archive-article-date">
+  	<time datetime="2019-02-20T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-21</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>最近弄了个可以收藏帖子的功能，大概的效果如下：</p>
+</blockquote>
+<a id="more"></a>
+
+<p><img src="http://116.62.150.158/pic/wxxcxCollection/col.gif"></p>
+<p>大概思路就是弄一个用来记录收藏的集合：</p>
+<p><img src="wxxcxCollection%5Cdb.png"></p>
+<p>里面记录了用户的openid和收藏的帖子的ID。然后先获取当前用户的所有收藏帖子ID，存在一个ID数组中，再通过循环将符合数组中的ID的帖子取出存入帖子数组中，然后wxml循环取出渲染。基本代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * 获取列表数据</span><br><span class="line"> * </span><br><span class="line"> *&#x2F;</span><br><span class="line">getData: function (page) &#123;</span><br><span class="line">  var that &#x3D; this;</span><br><span class="line">  const db &#x3D; wx.cloud.database();</span><br><span class="line">  &#x2F;&#x2F; 获取总数</span><br><span class="line">  db.collection(&#39;collection&#39;)</span><br><span class="line">    .where(&#123;</span><br><span class="line">      _openid: app.globalData.openid,</span><br><span class="line">    &#125;)</span><br><span class="line">    .count(&#123;</span><br><span class="line">      success: function (res) &#123;</span><br><span class="line">        that.setData(&#123;</span><br><span class="line">          totalCount: res.total</span><br><span class="line">        &#125;)</span><br><span class="line">        &#x2F;&#x2F; that.data.totalCount &#x3D; res.total;</span><br><span class="line">        console.log(&quot;totalCol111---&gt;&quot; + that.data.totalCount);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#x2F;&#x2F; 获取前十条</span><br><span class="line">  try &#123;</span><br><span class="line">    db.collection(&#39;collection&#39;)</span><br><span class="line">      .where(&#123;</span><br><span class="line">        _openid: app.globalData.openid &#x2F;&#x2F; 填入当前用户 openid</span><br><span class="line">      &#125;)</span><br><span class="line">      .orderBy(&#39;pub_time&#39;, &#39;desc&#39;)</span><br><span class="line">      .get(&#123;</span><br><span class="line">        success: function (res) &#123;</span><br><span class="line">          console.log(&quot;totalCol222---&gt;&quot; + that.data.totalCount);</span><br><span class="line">          &#x2F;&#x2F;循环取出收藏帖子ID</span><br><span class="line">          for(var i &#x3D; 0; i &lt; that.data.totalCount; i++)&#123;</span><br><span class="line">            console.log(res.data);</span><br><span class="line">            that.data.topicid[i] &#x3D; res.data[i].topicID</span><br><span class="line">          &#125;</span><br><span class="line">          var temp &#x3D; [];</span><br><span class="line">          const dd &#x3D; wx.cloud.database();</span><br><span class="line">          &#x2F;&#x2F;循环取出符合收藏帖子ID的帖子</span><br><span class="line">          for (var i &#x3D; 0; i &lt; that.data.totalCount; i++) &#123;</span><br><span class="line">            console.log(&quot;----------&gt;&quot; + that.data.topicid[i]);</span><br><span class="line">            dd.collection(&#39;counters&#39;)</span><br><span class="line">            .doc(that.data.topicid[i])</span><br><span class="line">            .get(&#123;</span><br><span class="line">              success: function (res) &#123;</span><br><span class="line">                var tempTopic &#x3D; res.data;</span><br><span class="line">                console.log(tempTopic);</span><br><span class="line">                console.log(&quot;--wtf1-&gt;&quot; + that.data.topics);</span><br><span class="line">                console.log(&quot;--wtf2-&gt;&quot; + that.data.topics.length);</span><br><span class="line">                that.setData(&#123;</span><br><span class="line">                  topics: that.data.topics</span><br><span class="line">                &#125;)</span><br><span class="line">              &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">          &#125;</span><br><span class="line">          wx.hideNavigationBarLoading();&#x2F;&#x2F;隐藏加载</span><br><span class="line">          wx.stopPullDownRefresh();</span><br><span class="line">        &#125;,</span><br><span class="line">        fail: function (event) &#123;</span><br><span class="line">          wx.hideNavigationBarLoading();&#x2F;&#x2F;隐藏加载</span><br><span class="line">          wx.stopPullDownRefresh();</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;)</span><br><span class="line">  &#125; catch (e) &#123;</span><br><span class="line">    wx.hideNavigationBarLoading();&#x2F;&#x2F;隐藏加载</span><br><span class="line">    wx.stopPullDownRefresh();</span><br><span class="line">    console.error(e);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<p>收藏和取消收藏的点击函数如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">  &#x2F;&#x2F;收藏</span><br><span class="line">  toagree: function (e) &#123;</span><br><span class="line">    var that &#x3D; this;</span><br><span class="line">      const db &#x3D; wx.cloud.database();</span><br><span class="line">      const topic &#x3D; db.collection(&#39;collection&#39;)</span><br><span class="line">      db.collection(&#39;collection&#39;).add(&#123;</span><br><span class="line">        &#x2F;&#x2F; data 字段表示需新增的 JSON 数据</span><br><span class="line">        data: &#123;</span><br><span class="line">          topicID: that.data.id</span><br><span class="line">        &#125;,</span><br><span class="line">        success: function (res) &#123;</span><br><span class="line">          console.log(&quot;success----&gt;&quot; + res)</span><br><span class="line">          &#x2F;&#x2F; 清空数据</span><br><span class="line">          that.setData(&#123;</span><br><span class="line">            agree: true</span><br><span class="line">          &#125;)</span><br><span class="line">          wx.showToast(&#123;</span><br><span class="line">            title: &quot;收藏成功！&quot;,</span><br><span class="line">          &#125;)</span><br><span class="line">          that.onShow();</span><br><span class="line">        &#125;,</span><br><span class="line">        complete: function (res) &#123;</span><br><span class="line">          console.log(&quot;complete----&gt;&quot; + res)</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;)</span><br><span class="line">  &#125;,</span><br><span class="line">  </span><br><span class="line">  &#x2F;&#x2F;取消收藏</span><br><span class="line">   unagree: function (e)&#123;</span><br><span class="line">    const db &#x3D; wx.cloud.database();</span><br><span class="line">    var that &#x3D; this;</span><br><span class="line">    console.log(&#39;ID1--&gt;&#39;+ that.data.id)</span><br><span class="line">    wx.showModal(&#123;</span><br><span class="line">      title: &#39;提示&#39;,</span><br><span class="line">      content: &#39;确认取消收藏吗？&#39;,</span><br><span class="line">      success: function (res) &#123;</span><br><span class="line">        console.log(&#39;ID2--&gt;&#39; + that.data.id)</span><br><span class="line">        if (res.confirm) &#123;</span><br><span class="line">          &#x2F;&#x2F; console.log(&#39;用户点击确定&#39;)</span><br><span class="line">          console.log(&#39;ID3--&gt;&#39; + that.data.id)</span><br><span class="line">          wx.cloud.callFunction(&#123;  &#x2F;&#x2F; 要调用的云函数名称</span><br><span class="line">            name: &#39;unlike&#39;,  &#x2F;&#x2F; 传递给云函数的参数</span><br><span class="line">            data: &#123;</span><br><span class="line">              id: that.data.id</span><br><span class="line">            &#125;, success: res &#x3D;&gt; &#123;</span><br><span class="line">              &#x2F;&#x2F; output:</span><br><span class="line">              &#x2F;&#x2F; console.log(&quot;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;wdnmd&quot; + res);</span><br><span class="line">              wx.showToast(&#123;</span><br><span class="line">                title: &quot;已取消收藏&quot;,</span><br><span class="line">              &#125;)</span><br><span class="line">              that.setData(&#123;</span><br><span class="line">                agree: false</span><br><span class="line">              &#125;)</span><br><span class="line">              that.onShow();</span><br><span class="line">            &#125;, fail: err &#x3D;&gt; &#123;</span><br><span class="line">              console.log(&quot;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;gg&quot; + err.errMsg);</span><br><span class="line">              wx.showToast(&#123;</span><br><span class="line">                title: &quot;取消失败！&quot;,</span><br><span class="line">              &#125;)</span><br><span class="line">              &#x2F;&#x2F; handle error</span><br><span class="line">            &#125;, complete: () &#x3D;&gt; &#123;</span><br><span class="line">              &#x2F;&#x2F; ...</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;)</span><br><span class="line">        &#125; else if (res.cancel) &#123;</span><br><span class="line">          &#x2F;&#x2F; console.log(&#39;用户点击取消&#39;)</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<p>其中删除数据库中的记录的操作都是用的云函数进行，因为会有权限不足的问题（什么鬼）。</p>
+<p>至此我负责的小程序模块就差不多完成了。之后就要去看看我同学那边有什么需要帮忙的了。</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="https://github.com/scorpionedge/scorpionedge.github.io/blob/master/images/alipay.jpg?raw=true">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/12/22/hello-world/" class="archive-article-date">
-  	<time datetime="2020-12-22T02:17:10.299Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-12-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/12/22/hello-world/">Hello World</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/12/22/pythonExcel/" class="archive-article-date">
-  	<time datetime="2020-12-21T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-12-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/12/22/pythonExcel/">使用python操作excel表格进行简单的数据处理</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">xlrd</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">微信小程序</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2019/02/21/wxxcxCollection/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/10/30/leetcode01/" class="archive-article-date">
-  	<time datetime="2020-10-29T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-30</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2019/03/11/SpringMVC/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          从零开始搭建SpringMVC项目
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/02/17/wxxcxNewMessage/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">关于微信小程序社区讨论新消息提示的解决思路</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/10/30/leetcode01/">小笔记01</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">leetcode</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    目录，不存在的…
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+        
+    </div>
+</aside>
+
+
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/08/20/SpringBoot1/" class="archive-article-date">
-  	<time datetime="2020-08-19T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-20</time>
-</a>
-        </div>
-    	 
+  <div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="wxxcxCollection" data-title="微信小程序社区讨论之收藏功能" data-url="http://example.com/2019/02/21/wxxcxCollection/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/08/20/SpringBoot1/">创建一个Spring Boot项目</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Spring Boot</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/08/05/UnableConnDB/" class="archive-article-date">
-  	<time datetime="2020-08-04T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/08/05/UnableConnDB/">关于数据库工具（WorkBench等）连接不上阿里云服务器上的MySQL数据库的解决方法</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">防火墙</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">数据库连接失败</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/08/04/yunduanBushu/" class="archive-article-date">
-  	<time datetime="2020-08-03T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-04</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/08/04/yunduanBushu/">将本地Java后台项目部署至阿里云服务器（Ubuntu）</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">项目部署</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/02/29/wxgzhReply/" class="archive-article-date">
-  	<time datetime="2020-02-28T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/02/29/wxgzhReply/">微信公众号之自动回复</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">微信公众号</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">PHP</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/02/25/PHPwxgzh/" class="archive-article-date">
-  	<time datetime="2020-02-24T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/02/25/PHPwxgzh/">PHP之服务器连接微信公众号</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">php</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">微信公众号</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/02/14/fenpingmian/" class="archive-article-date">
-  	<time datetime="2020-02-13T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-14</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/02/14/fenpingmian/">直线、切线切分平面问题</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">acm</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/01/05/hduoj1/" class="archive-article-date">
-  	<time datetime="2020-01-04T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/01/05/hduoj1/">贪心算法和动态规划问题</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">动态规划</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">贪心算法</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="extend next" rel="next" href="/archives/page/2/">Next &amp;raquo;</a>
-    </nav>
   
 
 
@@ -571,8 +391,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

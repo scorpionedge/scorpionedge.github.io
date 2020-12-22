@@ -6,15 +6,25 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Archives | ScorpioN</title>
+  <title>微信小程序之社区讨论模块（一）首页加载+进入帖子 | ScorpioN</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="ScorpioN">
-<meta property="og:url" content="http://example.com/archives/index.html">
+  <meta name="description" content="呃，这段时间一直在搞服创的题目（就是弄一个微信小程序），我在组里负责的是社区讨论的模块。我设想的是类似百度贴吧那种吧。不过我属实没有系统学过CSS和JS，所以在过程中碰了好多墙，写篇博客记录一下…由于组中负责MySQL数据库的同学还没弄好，所以我就先用的小程序里面自带的云数据库进行开发，，  目前我完成了发帖、首页下拉刷新上拉触底刷新还有进入帖子：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="微信小程序之社区讨论模块（一）首页加载+进入帖子">
+<meta property="og:url" content="http://example.com/2019/01/27/wxxcxTB/index.html">
 <meta property="og:site_name" content="ScorpioN">
+<meta property="og:description" content="呃，这段时间一直在搞服创的题目（就是弄一个微信小程序），我在组里负责的是社区讨论的模块。我设想的是类似百度贴吧那种吧。不过我属实没有系统学过CSS和JS，所以在过程中碰了好多墙，写篇博客记录一下…由于组中负责MySQL数据库的同学还没弄好，所以我就先用的小程序里面自带的云数据库进行开发，，  目前我完成了发帖、首页下拉刷新上拉触底刷新还有进入帖子：">
 <meta property="og:locale">
+<meta property="og:image" content="http://example.com/2019/01/27/wxxcxTB/wxxcxTB/main.gif">
+<meta property="og:image" content="http://example.com/2019/01/27/wxxcxTB/wxxcxTB/publish.gif">
+<meta property="og:image" content="http://example.com/2019/01/27/wxxcxTB/wxxcxTB/tzdetail.gif">
+<meta property="article:published_time" content="2019-01-27T02:28:10.000Z">
+<meta property="article:modified_time" content="2020-08-20T06:17:25.331Z">
 <meta property="article:author" content="ScorpioN">
+<meta property="article:tag" content="微信小程序">
+<meta property="article:tag" content="JS">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2019/01/27/wxxcxTB/wxxcxTB/main.gif">
   
     <link rel="alternative" href="/atom.xml" title="ScorpioN" type="application/atom+xml">
   
@@ -140,414 +150,252 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-wxxcxTB" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      微信小程序之社区讨论模块（一）首页加载+进入帖子
+    </h1>
+  
+
+        
+        <a href="/2019/01/27/wxxcxTB/" class="archive-article-date">
+  	<time datetime="2019-01-27T02:28:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-27</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>呃，这段时间一直在搞服创的题目（就是弄一个微信小程序），我在组里负责的是社区讨论的模块。我设想的是类似百度贴吧那种吧。不过我属实没有系统学过CSS和JS，所以在过程中碰了好多墙，写篇博客记录一下…由于组中负责MySQL数据库的同学还没弄好，所以我就先用的小程序里面自带的云数据库进行开发，，</p>
+</blockquote>
+<p>目前我完成了发帖、首页下拉刷新上拉触底刷新还有进入帖子：</p>
+<a id="more"></a>
+
+<img src="wxxcxTB\main.gif" style="zoom:50%;" />
+
+<p>​                    <code>首页一次加载五个帖子，下拉触底后继续刷新后五个</code></p>
+<img src="wxxcxTB\publish.gif" style="zoom:50%;" />
+
+<p>​                                    <code>发帖子</code></p>
+<img src="wxxcxTB\tzdetail.gif" style="zoom:50%;" />
+
+<p>​                                    <code>进入帖子</code></p>
+<p><code>这里的CSS我是参考的网上一个大神的，因为我CSS真的是个弟弟......</code></p>
+<p>下拉刷新和上拉触底刷新的基本逻辑就是先获取数据库中相关内容的总数，然后使用limit方法来限制每次返回的数据个数。</p>
+<p>先摆一下比较关键的代码吧：</p>
+<p>获取首页数据：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br></pre></td><td class="code"><pre><span class="line">Page(&#123;</span><br><span class="line">  data: &#123;</span><br><span class="line">    counterId: &#39;&#39;,</span><br><span class="line">    openid: &#39;&#39;,</span><br><span class="line">    count: null,</span><br><span class="line">    page: 0,</span><br><span class="line">    pageSize: 5,</span><br><span class="line">    totalCount: 0,</span><br><span class="line">    queryResult: &#123;&#125;,</span><br><span class="line">    nomsg: false</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  &#x2F;**</span><br><span class="line">   * 生命周期函数--监听页面加载</span><br><span class="line">   *&#x2F;</span><br><span class="line">  onLoad: function (options) &#123;</span><br><span class="line">      console.log(&#39;onload&#39;);</span><br><span class="line">      this.getData(this.data.page);</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">getData: function(page)&#123;</span><br><span class="line">  var that &#x3D; this;</span><br><span class="line">  console.log(&quot;page---&gt;&quot; + page);</span><br><span class="line">  const db &#x3D; wx.cloud.database();</span><br><span class="line">  &#x2F;&#x2F; 获取总数</span><br><span class="line">  db.collection(&#39;counters&#39;).count(&#123;</span><br><span class="line">    success: function (res) &#123;</span><br><span class="line">      that.data.totalCount &#x3D; res.total;</span><br><span class="line">      &#x2F;&#x2F; console.log(&quot;totalcount---&gt;&quot; + totalCount);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">  &#x2F;&#x2F;console.log(&quot;totalcount---&gt;&quot; + that.data.totalCount);</span><br><span class="line">  &#x2F;&#x2F; 获取前五条</span><br><span class="line">  try &#123;</span><br><span class="line">    db.collection(&#39;counters&#39;)</span><br><span class="line">      .limit(that.data.pageSize) &#x2F;&#x2F; 限制返回数量为 5 条</span><br><span class="line">      .orderBy(&#39;pub_time&#39;, &#39;desc&#39;)</span><br><span class="line">      .get(&#123;</span><br><span class="line">        success: function (res) &#123;</span><br><span class="line">          &#x2F;&#x2F; res.data 是包含以上定义的两条记录的数组</span><br><span class="line">          &#x2F;&#x2F; console.log(res.data)</span><br><span class="line">          that.data.queryResult &#x3D; res.data;</span><br><span class="line">          that.setData(&#123;</span><br><span class="line">            queryResult: that.data.queryResult,</span><br><span class="line">          &#125;)</span><br><span class="line">          &#x2F;&#x2F; console.log(&#39;[数据库] [查询记录] 成功: &#39;, res)</span><br><span class="line">          wx.hideNavigationBarLoading();&#x2F;&#x2F;隐藏加载</span><br><span class="line">          wx.stopPullDownRefresh();</span><br><span class="line"></span><br><span class="line">        &#125;,</span><br><span class="line">        fail: function (event) &#123;</span><br><span class="line">          wx.hideNavigationBarLoading();&#x2F;&#x2F;隐藏加载</span><br><span class="line">          wx.stopPullDownRefresh();</span><br><span class="line">          console.log(&quot;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&quot; + event);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;)</span><br><span class="line">  &#125; catch (e) &#123;</span><br><span class="line">    wx.hideNavigationBarLoading();&#x2F;&#x2F;隐藏加载</span><br><span class="line">    wx.stopPullDownRefresh();</span><br><span class="line">    console.error(e);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;,</span><br><span class="line"></span><br><span class="line">  &#x2F;**</span><br><span class="line"> * item 点击跳转进入帖子</span><br><span class="line"> *&#x2F;</span><br><span class="line">  onItemClick: function (event) &#123;</span><br><span class="line">    var id &#x3D; event.currentTarget.dataset.topicid;</span><br><span class="line">    console.log(id);</span><br><span class="line">    wx.navigateTo(&#123;</span><br><span class="line">      url: &quot;..&#x2F;tzdetail&#x2F;detail?id&#x3D;&quot; + id</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  &#x2F;**</span><br><span class="line">   * 页面相关事件处理函数--监听用户下拉动作</span><br><span class="line">   *&#x2F;</span><br><span class="line">  onPullDownRefresh: function () &#123;</span><br><span class="line">    wx.showNavigationBarLoading() &#x2F;&#x2F;在标题栏中显示加载</span><br><span class="line">    console.log(&#39;pulldown&#39;);</span><br><span class="line">    this.getData(this.data.page);</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  &#x2F;**</span><br><span class="line">   * 页面上拉触底事件的处理函数</span><br><span class="line">   *&#x2F;</span><br><span class="line">  onReachBottom: function () &#123;</span><br><span class="line">    var that &#x3D; this;</span><br><span class="line">    var temp &#x3D; [];</span><br><span class="line">    &#x2F;&#x2F; 获取后面五条</span><br><span class="line">    console.log(&quot;length----&gt;&quot; + this.data.queryResult.length);</span><br><span class="line">    console.log(&quot;count---&gt;&quot; + this.data.totalCount);</span><br><span class="line">    if (this.data.queryResult.length &lt; this.data.totalCount) &#123;</span><br><span class="line">      try &#123;</span><br><span class="line">        const db &#x3D; wx.cloud.database();</span><br><span class="line">        db.collection(&#39;counters&#39;)</span><br><span class="line">          .skip(this.data.queryResult.length) &#x2F;&#x2F;跳过初次加载的数据</span><br><span class="line">          .orderBy(&#39;pub_time&#39;, &#39;desc&#39;)</span><br><span class="line">          .limit(5) &#x2F;&#x2F; 限制返回数量为 5 条</span><br><span class="line">          .get(&#123;</span><br><span class="line">            success: function (res) &#123;</span><br><span class="line">              &#x2F;&#x2F; res.data 是包含以上定义的两条记录的数组</span><br><span class="line">              if (res.data.length &gt; 0) &#123;</span><br><span class="line">                for (var i &#x3D; 0; i &lt; res.data.length; i++) &#123;</span><br><span class="line">                      var tempTopic &#x3D; res.data[i];</span><br><span class="line">                      console.log(tempTopic);</span><br><span class="line">                      temp.push(tempTopic);</span><br><span class="line">                &#125;</span><br><span class="line">                var totalTopic &#x3D; &#123;&#125;;</span><br><span class="line">                totalTopic &#x3D; that.data.queryResult.concat(temp);</span><br><span class="line"></span><br><span class="line">                console.log(totalTopic);</span><br><span class="line">                that.setData(&#123;</span><br><span class="line">                  queryResult: totalTopic,</span><br><span class="line">                &#125;)</span><br><span class="line">              &#125; else &#123;</span><br><span class="line">                this.setData(&#123;</span><br><span class="line">                  nomsg: true</span><br><span class="line">                &#125;)</span><br><span class="line">                wx.showToast(&#123;</span><br><span class="line">                  title: &#39;没有更多数据了&#39;,</span><br><span class="line">                &#125;)</span><br><span class="line">              &#125;</span><br><span class="line">            &#125;,</span><br><span class="line">            fail: function (event) &#123;</span><br><span class="line">              console.log(&quot;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&quot; + event);</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;)</span><br><span class="line">      &#125; catch (e) &#123;</span><br><span class="line">        console.error(e);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      this.setData(&#123;</span><br><span class="line">        nomsg: true  &#x2F;&#x2F;这个变量用来判断是否获取完数据，若获取完了就在底部显示没有更多</span><br><span class="line">      &#125;)</span><br><span class="line">      wx.showToast(&#123;</span><br><span class="line">        title: &#39;没有更多数据了&#39;,</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
+<p>首页WXML：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&lt;block wx:for&#x3D;&#39;&#123;&#123;queryResult&#125;&#125;&#39; wx:for-index&#x3D;&#39;idx&#39;&gt;</span><br><span class="line">&lt;view class&#x3D;&#39;container&#39; bindtap&#x3D;&#39;onItemClick&#39; data-topicId&#x3D;&#39;&#123;&#123;item._id&#125;&#125;&#39;&gt;</span><br><span class="line">  &lt;view class&#x3D;&#39;amountBg&#39; &gt;</span><br><span class="line">    &lt;view class&#x3D;&#39;user-info&#39;&gt;</span><br><span class="line">      &lt;image class&#x3D;&#39;user-head&#39; src&#x3D;&#39;&#123;&#123;item.author_name.avatarUrl&#125;&#125;&#39; mode&#x3D;&#39;aspectFill&#39;&gt;&lt;&#x2F;image&gt;</span><br><span class="line">        &lt;view class&#x3D;&#39;user-name-time&#39;&gt;</span><br><span class="line">          &lt;view class&#x3D;&#39;user-name&#39;&gt;&#123;&#123;item.author_name.nickName&#125;&#125;&lt;&#x2F;view&gt;</span><br><span class="line">          &lt;view class&#x3D;&#39;user-publish-time&#39;&gt;&#123;&#123;item.pub_time&#125;&#125;&lt;&#x2F;view&gt;</span><br><span class="line">        &lt;&#x2F;view&gt;</span><br><span class="line">    &lt;&#x2F;view&gt;</span><br><span class="line"></span><br><span class="line">    &lt;view class&#x3D;&quot;short-text&quot; &gt;</span><br><span class="line">      &lt;block wx:if&#x3D;&quot;&#123;&#123;item.content !&#x3D; &#39;&#39;&#125;&#125; &amp;&amp; &#123;&#123;item.images.length &gt; 0&#125;&#125;&quot;&gt;</span><br><span class="line">      &lt;view class&#x3D;&quot;title&quot; &gt;</span><br><span class="line">        &#123;&#123;item.title&#125;&#125;</span><br><span class="line">      &lt;&#x2F;view&gt;</span><br><span class="line">      &lt;view class&#x3D;&quot;text&quot; &gt;</span><br><span class="line">        &#123;&#123;item.text&#125;&#125;</span><br><span class="line">      &lt;&#x2F;view&gt;</span><br><span class="line">      &lt;&#x2F;block&gt;</span><br><span class="line">    &lt;&#x2F;view&gt;</span><br><span class="line"></span><br><span class="line">  &lt;&#x2F;view&gt; </span><br><span class="line">  &lt;view class&#x3D;&#39;container-line&#39;&gt;&lt;&#x2F;view&gt;</span><br><span class="line">&lt;&#x2F;view&gt;</span><br><span class="line">&lt;&#x2F;block&gt;</span><br><span class="line"></span><br><span class="line">  &lt;view class&#x3D;&#39;nomsg&#39; wx:if&#x3D;&quot;&#123;&#123;nomsg&#125;&#125;&quot;&gt;没有更多啦！&lt;&#x2F;view&gt;</span><br></pre></td></tr></table></figure>
+<p>首页CSS：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&#x2F;* 分割线 *&#x2F;</span><br><span class="line">.container-line&#123;</span><br><span class="line">  width: 100%;</span><br><span class="line">  height: 1px;</span><br><span class="line">  background-color: #ccc;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;* 加载完毕显示 *&#x2F;</span><br><span class="line">.nomsg&#123;</span><br><span class="line">  text-align: center;</span><br><span class="line">  font-family:&#39;Times New Roman&#39;, Times, serif;</span><br><span class="line">  color:rgb(95, 95, 95);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;* 最外一层 *&#x2F;</span><br><span class="line">.container &#123;</span><br><span class="line">  display: flex;</span><br><span class="line">  flex-direction: column;</span><br><span class="line">  width: 100%;</span><br><span class="line">  height: 100%;</span><br><span class="line">  overflow: hidden</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;* 每一块 *&#x2F;</span><br><span class="line">.amountBg &#123;</span><br><span class="line"></span><br><span class="line">  display: flex;</span><br><span class="line">  flex-direction: column;</span><br><span class="line">  width: 100%;</span><br><span class="line">  &#x2F;* height: 100%; *&#x2F;</span><br><span class="line">  padding: 10px 10px 5px 10px;</span><br><span class="line">  margin: 0 auto;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.img &#123;</span><br><span class="line">  overflow: hidden;</span><br><span class="line">  display: block;</span><br><span class="line">  left: 10px;</span><br><span class="line">  width: 35px;</span><br><span class="line">  height: 35px;</span><br><span class="line">  border-radius: 50%;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.user-publish-time &#123;</span><br><span class="line">  font-size: 15px;</span><br><span class="line">  color: #999;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.user-info &#123;</span><br><span class="line">  display: flex;</span><br><span class="line">  flex-direction: row;</span><br><span class="line">  width: 100%;</span><br><span class="line">  align-items: center;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.user-head &#123;</span><br><span class="line">  width: 36px;</span><br><span class="line">  height: 36px;</span><br><span class="line">  line-height: 36px;</span><br><span class="line">  border-radius: 50%;</span><br><span class="line">  background-color: #ccc;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.user-name-time &#123;</span><br><span class="line">  display: flex;</span><br><span class="line">  flex-direction: column;</span><br><span class="line">  width: 80%;</span><br><span class="line">  margin-top: 5px;</span><br><span class="line">  margin-left: 10px;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"> .short-text&#123;</span><br><span class="line"> color: rgb(14, 3, 3);</span><br><span class="line">  display: flex;</span><br><span class="line">  flex-direction: column;</span><br><span class="line">  margin-right: 5%;</span><br><span class="line">  margin-top: 14px;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.title&#123;</span><br><span class="line">  font-weight: bold;</span><br><span class="line">  font-size: 18px;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.text&#123;</span><br><span class="line">  font-size: 18px;</span><br><span class="line">  padding: 8px 10px 10px 10px;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.nick-name&#123;</span><br><span class="line">  font-family: &#39;Mcrosoft Yahei&#39;;</span><br><span class="line">  font-size: 14px;</span><br><span class="line">  align-self:baseline;</span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">.address&#123;</span><br><span class="line">  font-size: 13px;</span><br><span class="line">&#125; </span><br><span class="line">.nav &#123;</span><br><span class="line">  width: 15px;</span><br><span class="line">  color: #fff;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+
+<p>发帖：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br></pre></td><td class="code"><pre><span class="line">import formatTime from &#39;..&#x2F;..&#x2F;utils&#x2F;util.js&#39;;</span><br><span class="line">Page(&#123;</span><br><span class="line"></span><br><span class="line">  &#x2F;**</span><br><span class="line">  * 页面的初始数据</span><br><span class="line">  *&#x2F;</span><br><span class="line">  </span><br><span class="line">  data: &#123;</span><br><span class="line">    canIUse: wx.canIUse(&#39;button.open-type.getUserInfo&#39;),</span><br><span class="line">    title: &#39;&#39;,</span><br><span class="line">    content: &#39;&#39;,</span><br><span class="line">    topicId: &#39;&#39;,</span><br><span class="line">    images: [],</span><br><span class="line">    history: &#39;&#39;,</span><br><span class="line">    time: &#39;&#39;,</span><br><span class="line">    user: &#123;&#125;,</span><br><span class="line">    isLike: false,</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  &#x2F;**</span><br><span class="line">   * 获取填写的内容</span><br><span class="line">   *&#x2F;</span><br><span class="line">  getTextAreaContent: function (event) &#123;</span><br><span class="line">    this.data.title &#x3D; event.detail.value;</span><br><span class="line">    this.data.content &#x3D; event.detail.value;</span><br><span class="line">  &#125;,</span><br><span class="line">  &#x2F;**</span><br><span class="line">   * 选择图片</span><br><span class="line">   *&#x2F;</span><br><span class="line">  chooseImage: function (event) &#123;</span><br><span class="line">    var that &#x3D; this;</span><br><span class="line">    wx.chooseImage(&#123;</span><br><span class="line">      count: 6,</span><br><span class="line">      success: function (res) &#123;</span><br><span class="line">        &#x2F;&#x2F; tempFilePath可以作为img标签的src属性显示图片</span><br><span class="line">        const tempFilePaths &#x3D; res.tempFilePaths</span><br><span class="line"></span><br><span class="line">        for (var i in tempFilePaths) &#123;</span><br><span class="line">          that.data.images &#x3D; that.data.images.concat(tempFilePaths[i])</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F; 设置图片</span><br><span class="line">        that.setData(&#123;</span><br><span class="line">          images: that.data.images,</span><br><span class="line">        &#125;)</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;,</span><br><span class="line">  &#x2F;**</span><br><span class="line">   * 发布</span><br><span class="line">   *&#x2F;</span><br><span class="line">  formSubmit: function (e) &#123;</span><br><span class="line">    console.log(&#39;form发生了submit事件，携带数据为：&#39;, e.detail.value[&#39;input-content&#39;])</span><br><span class="line">    this.data.content &#x3D; e.detail.value[&#39;input-content&#39;];</span><br><span class="line">    this.data.title &#x3D; e.detail.value[&#39;input-title&#39;];</span><br><span class="line">    console.log(&quot;内容---&gt;&quot; + this.data.content.trim());</span><br><span class="line">    &#x2F;&#x2F; this.data.user &#x3D; event.detail.userInfo;</span><br><span class="line">    if (this.data.canIUse) &#123;</span><br><span class="line">      if (this.data.images.length &gt; 0) &#123;</span><br><span class="line">        this.saveDataToServer();</span><br><span class="line">      &#125; else if (this.data.content.trim() !&#x3D; &#39;&#39;) &#123;</span><br><span class="line">        this.saveDataToServer();</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">        wx.showToast(&#123;</span><br><span class="line">          title: &#39;没有内容不能发布哦&#39;,</span><br><span class="line">        &#125;)</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      this.jugdeUserLogin();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  &#x2F;**</span><br><span class="line">   * 保存到发布集合中</span><br><span class="line">   *&#x2F;</span><br><span class="line">  saveDataToServer: function (event) &#123;</span><br><span class="line">    var that &#x3D; this;</span><br><span class="line">    var a &#x3D; new Date();</span><br><span class="line">    that.data.time &#x3D; formatTime(new Date, &quot;Y-M-D h:m:s&quot;);</span><br><span class="line">    &#x2F;&#x2F; that.data.time &#x3D; a.toLocaleDateString() + &quot; &quot; + a.toLocaleTimeString();</span><br><span class="line">    &#x2F;&#x2F; var b &#x3D; a.toLocaleTimeString();</span><br><span class="line">    &#x2F;&#x2F; var c &#x3D; a.toLocaleDateString();</span><br><span class="line">    &#x2F;&#x2F; that.data.time &#x3D; c + &quot; &quot; + b;</span><br><span class="line">    const db &#x3D; wx.cloud.database();</span><br><span class="line">    const topic &#x3D; db.collection(&#39;counters&#39;)</span><br><span class="line">    db.collection(&#39;counters&#39;).add(&#123;</span><br><span class="line">      &#x2F;&#x2F; data 字段表示需新增的 JSON 数据</span><br><span class="line">      data: &#123;</span><br><span class="line">        title: that.data.title,</span><br><span class="line">        text: that.data.content,</span><br><span class="line">        pub_time: that.data.time,</span><br><span class="line">        images: that.data.images,</span><br><span class="line">        author_name: that.data.user,</span><br><span class="line">        isLike: that.data.isLike,</span><br><span class="line">      &#125;,</span><br><span class="line">      success: function (res) &#123;</span><br><span class="line">        &#x2F;&#x2F; res 是一个对象，其中有 _id 字段标记刚创建的记录的 id</span><br><span class="line">        &#x2F;&#x2F; 清空，然后重定向到首页</span><br><span class="line">        console.log(&quot;success----&gt;&quot; + res)</span><br><span class="line">        &#x2F;&#x2F; 保存到发布历史+</span><br><span class="line">        &#x2F;&#x2F; that.saveToHistoryServer();</span><br><span class="line">        &#x2F;&#x2F; 清空数据</span><br><span class="line">        </span><br><span class="line">        &#x2F;&#x2F; that.data.title &#x3D; &#39;&#39;;</span><br><span class="line">        &#x2F;&#x2F; that.data.content &#x3D; &#39;&#39;;</span><br><span class="line">        &#x2F;&#x2F; that.data.time &#x3D; &#39;&#39;;</span><br><span class="line">        &#x2F;&#x2F; that.data.images &#x3D; [];</span><br><span class="line">        &#x2F;&#x2F; a &#x3D; null;</span><br><span class="line">        &#x2F;&#x2F; b &#x3D; null;</span><br><span class="line">        &#x2F;&#x2F; c &#x3D; null;</span><br><span class="line">        &#x2F;&#x2F; that.data.time &#x3D; null;</span><br><span class="line"></span><br><span class="line">        that.setData(&#123;</span><br><span class="line">          title: &#39;&#39;,</span><br><span class="line">          content: &#39;&#39;,</span><br><span class="line">          time: &#39;&#39;,</span><br><span class="line">          images: []</span><br><span class="line">        &#125;)</span><br><span class="line"></span><br><span class="line">        that.showTipAndSwitchTab();</span><br><span class="line"></span><br><span class="line">      &#125;,</span><br><span class="line">      complete: function (res) &#123;</span><br><span class="line">        console.log(&quot;complete----&gt;&quot; + res)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;,</span><br><span class="line">  &#x2F;**</span><br><span class="line">   * 添加成功添加提示，切换页面</span><br><span class="line">   *&#x2F;</span><br><span class="line">  showTipAndSwitchTab: function (event) &#123;</span><br><span class="line">    wx.showToast(&#123;</span><br><span class="line">      title: &quot;发布成功！&quot;,</span><br><span class="line">    &#125;)</span><br><span class="line">    setTimeout(function () &#123;</span><br><span class="line">      wx.reLaunch(&#123;</span><br><span class="line">        url: &#39;..&#x2F;maintab&#x2F;main&#39;,</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;, 800)</span><br><span class="line"></span><br><span class="line">    console.log(&quot;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&quot;)</span><br><span class="line">  &#125;,</span><br><span class="line">  &#x2F;**</span><br><span class="line">   * 删除图片</span><br><span class="line">   *&#x2F;</span><br><span class="line">  removeImg: function (event) &#123;</span><br><span class="line">    var position &#x3D; event.currentTarget.dataset.index;</span><br><span class="line">    this.data.images.splice(position, 1);</span><br><span class="line">    &#x2F;&#x2F; 渲染图片</span><br><span class="line">    this.setData(&#123;</span><br><span class="line">      images: this.data.images,</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;,</span><br><span class="line">  &#x2F;&#x2F; 预览图片</span><br><span class="line">  previewImg: function (e) &#123;</span><br><span class="line">    &#x2F;&#x2F;获取当前图片的下标</span><br><span class="line">    var index &#x3D; e.currentTarget.dataset.index;</span><br><span class="line"></span><br><span class="line">    wx.previewImage(&#123;</span><br><span class="line">      &#x2F;&#x2F;当前显示图片</span><br><span class="line">      current: this.data.images[index],</span><br><span class="line">      &#x2F;&#x2F;所有图片</span><br><span class="line">      urls: this.data.images</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
+<p>其中最上面import的那个formatTime是我发现不同设备直接使用Date()好像存储的时间格式不一样，所以我就把它们都转换称统一格式后再存。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;数据转化</span><br><span class="line">function formatNumber(n) &#123;</span><br><span class="line">  n &#x3D; n.toString()</span><br><span class="line">  return n[1] ? n : &#39;0&#39; + n</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> * 时间戳转化为年 月 日 时 分 秒</span><br><span class="line"> * number: 传入时间戳</span><br><span class="line"> * format：返回格式，支持自定义，但参数必须与formateArr里保持一致</span><br><span class="line">*&#x2F;</span><br><span class="line">export default function dateFMT(number, format) &#123;</span><br><span class="line"></span><br><span class="line">  var formateArr &#x3D; [&#39;Y&#39;, &#39;M&#39;, &#39;D&#39;, &#39;h&#39;, &#39;m&#39;, &#39;s&#39;];</span><br><span class="line">  var returnArr &#x3D; [];</span><br><span class="line">  var date &#x3D; new Date(number);</span><br><span class="line">  returnArr.push(date.getFullYear());</span><br><span class="line">  returnArr.push(formatNumber(date.getMonth() + 1));</span><br><span class="line">  returnArr.push(formatNumber(date.getDate()));</span><br><span class="line"></span><br><span class="line">  returnArr.push(formatNumber(date.getHours()));</span><br><span class="line">  returnArr.push(formatNumber(date.getMinutes()));</span><br><span class="line">  returnArr.push(formatNumber(date.getSeconds()));</span><br><span class="line"></span><br><span class="line">  for (var i in returnArr) &#123;</span><br><span class="line">    format &#x3D; format.replace(formateArr[i], returnArr[i]);</span><br><span class="line">  &#125;</span><br><span class="line">  return format;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>因为我打算评论功能用MySQL做，所以现在加载的评论都是假数据。但是在搞底部输入框的时候遇见了一个问题，就是如果只用”buttom: 0;”的话弹出的输入法会把输入框覆盖住，，我百度了半天，用了一堆函数测试都不行…结果后来看见有个大神说加一句话就行了：”cursor-spacing=”15” “，这句话的意思就是光标与键盘的距离。加上后真的就可以了，，，下面把底部输入框的wxml和wxss写出来：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">&lt;form bindsubmit&#x3D;&quot;formSubmit&quot; report-submit&#x3D;&quot;true&quot;&gt;</span><br><span class="line">&lt;view class &#x3D;&quot;release&quot;  style&#x3D;&#39;bottom:&#123;&#123;height&#125;&#125;px;&#39; &gt;</span><br><span class="line">  &lt;input type&#x3D;&#39;text&#39; placeholder-style&#x3D;&#39;input-placeholder&#39; class&#x3D;&#39;reply&#39; bindblur&#x3D;&#39;getTextAreaContent&#39; name&#x3D;&#39;reply&#39; placeholder&#x3D;&#39;随便说点什么吧~(30字以内哦)&#39; cursor-spacing&#x3D;&quot;15&quot;  maxlength&#x3D;&#39;30&#39; value&#x3D;&#39;&#123;&#123;inputValue&#125;&#125;&#39;&gt;&lt;&#x2F;input&gt;</span><br><span class="line">  &lt;button form-type&#x3D;&quot;submit&quot; class&#x3D;&quot;submit&quot;&gt;发送&lt;&#x2F;button&gt;</span><br><span class="line">&lt;&#x2F;view&gt;</span><br><span class="line">&lt;&#x2F;form&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">.release &#123;</span><br><span class="line">  align-items: flex-end; &#x2F;*底部对齐*&#x2F;</span><br><span class="line">  box-sizing: border-box;</span><br><span class="line">  position: fixed;</span><br><span class="line">  overflow: hidden;</span><br><span class="line">  left: 0;</span><br><span class="line">  bottom: 0;</span><br><span class="line">  width: 100%;</span><br><span class="line">  height: 90rpx;</span><br><span class="line">  padding: 18rpx 0 18rpx 30rpx;</span><br><span class="line">  background-color: #f7f8f7;</span><br><span class="line">  font-size: 28rpx;</span><br><span class="line">  z-index: 999;</span><br><span class="line">  display: flex;</span><br><span class="line">  justify-content: space-between;</span><br><span class="line">  padding-bottom:0%;</span><br><span class="line">&#125;</span><br><span class="line">.reply &#123;</span><br><span class="line"></span><br><span class="line">  width: 550rpx;</span><br><span class="line">  min-height: 34rpx;</span><br><span class="line">  max-height: 102rpx; &#x2F;*最多显示三行*&#x2F;</span><br><span class="line">  border-width: 15rpx 20rpx; &#x2F;*使用padding与预期留白不一致，故使用border*&#x2F;</span><br><span class="line">  border-style: solid;</span><br><span class="line">  border-color: #fff;</span><br><span class="line">  line-height: 34rpx;</span><br><span class="line">  font-size: 28rpx;</span><br><span class="line">  background-color: #fff;</span><br><span class="line">  border-radius: 4rpx;</span><br><span class="line">&#125;</span><br><span class="line">.submit &#123;</span><br><span class="line">  width: 120rpx;</span><br><span class="line">  height: 64rpx;</span><br><span class="line">  line-height: 64rpx;</span><br><span class="line">  text-align: center;</span><br><span class="line">  color: #6c0;</span><br><span class="line">  margin: 0 3px;</span><br><span class="line">  padding: 0;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+
+<p>其实基本功能真的很简单，但可能是因为我太笨了吧，有些很简单的地方就卡了很久，而且很多没学过的地方要各种百度…我佛了，</p>
+<p>下一步等我同学弄好数据库后我就把评论给搞了，我想弄那种楼中楼的样式。还有就是要分板块(大概是按专业来分吧，就像百度贴吧有很多个吧那种)，然后通过我同学的教务处的模块绑定学校。差不多就这样吧…</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="https://github.com/scorpionedge/scorpionedge.github.io/blob/master/images/alipay.jpg?raw=true">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/12/22/hello-world/" class="archive-article-date">
-  	<time datetime="2020-12-22T02:17:10.299Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-12-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/12/22/hello-world/">Hello World</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/12/22/pythonExcel/" class="archive-article-date">
-  	<time datetime="2020-12-21T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-12-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/12/22/pythonExcel/">使用python操作excel表格进行简单的数据处理</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">微信小程序</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">xlrd</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">JS</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2019/01/27/wxxcxTB/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/10/30/leetcode01/" class="archive-article-date">
-  	<time datetime="2020-10-29T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-30</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2019/01/31/JDBCMySql/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          使用JDBC连接服务器端MySQL实现的学生信息管理系统
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/01/15/mysqlinstall/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">关于给云服务器安装MySQL数据库并允许外网访问(腾讯云)</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/10/30/leetcode01/">小笔记01</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">leetcode</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    目录，不存在的…
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+        
+    </div>
+</aside>
+
+
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/08/20/SpringBoot1/" class="archive-article-date">
-  	<time datetime="2020-08-19T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-20</time>
-</a>
-        </div>
-    	 
+  <div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="wxxcxTB" data-title="微信小程序之社区讨论模块（一）首页加载+进入帖子" data-url="http://example.com/2019/01/27/wxxcxTB/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/08/20/SpringBoot1/">创建一个Spring Boot项目</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Spring Boot</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/08/05/UnableConnDB/" class="archive-article-date">
-  	<time datetime="2020-08-04T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/08/05/UnableConnDB/">关于数据库工具（WorkBench等）连接不上阿里云服务器上的MySQL数据库的解决方法</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">防火墙</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">数据库连接失败</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/08/04/yunduanBushu/" class="archive-article-date">
-  	<time datetime="2020-08-03T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-04</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/08/04/yunduanBushu/">将本地Java后台项目部署至阿里云服务器（Ubuntu）</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">项目部署</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/02/29/wxgzhReply/" class="archive-article-date">
-  	<time datetime="2020-02-28T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/02/29/wxgzhReply/">微信公众号之自动回复</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">微信公众号</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">PHP</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/02/25/PHPwxgzh/" class="archive-article-date">
-  	<time datetime="2020-02-24T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/02/25/PHPwxgzh/">PHP之服务器连接微信公众号</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">php</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">微信公众号</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/02/14/fenpingmian/" class="archive-article-date">
-  	<time datetime="2020-02-13T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-14</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/02/14/fenpingmian/">直线、切线切分平面问题</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">acm</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/01/05/hduoj1/" class="archive-article-date">
-  	<time datetime="2020-01-04T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/01/05/hduoj1/">贪心算法和动态规划问题</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">动态规划</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">贪心算法</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="extend next" rel="next" href="/archives/page/2/">Next &amp;raquo;</a>
-    </nav>
   
 
 
@@ -571,8 +419,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
