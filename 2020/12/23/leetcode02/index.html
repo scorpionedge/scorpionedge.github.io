@@ -6,14 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Archives: 2020/8 | ScorpioN</title>
+  <title>记录一下近期leetcode上刷到的个人感觉有意思的题(厄拉多塞筛法、贪心) | ScorpioN</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="ScorpioN">
-<meta property="og:url" content="http://example.com/archives/2020/08/index.html">
+  <meta name="description" content="RT">
+<meta property="og:type" content="article">
+<meta property="og:title" content="记录一下近期leetcode上刷到的个人感觉有意思的题(厄拉多塞筛法、贪心)">
+<meta property="og:url" content="http://example.com/2020/12/23/leetcode02/index.html">
 <meta property="og:site_name" content="ScorpioN">
+<meta property="og:description" content="RT">
 <meta property="og:locale">
+<meta property="article:published_time" content="2020-12-22T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-12-23T06:39:23.024Z">
 <meta property="article:author" content="ScorpioN">
+<meta property="article:tag" content="leecode">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="ScorpioN" type="application/atom+xml">
@@ -140,140 +145,226 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-leetcode02" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      记录一下近期leetcode上刷到的个人感觉有意思的题(厄拉多塞筛法、贪心)
+    </h1>
+  
+
+        
+        <a href="/2020/12/23/leetcode02/" class="archive-article-date">
+  	<time datetime="2020-12-22T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-12-23</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>RT</p>
+</blockquote>
+<a id="more"></a>
+
+<p>厄拉多塞筛法:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 统计所有小于非负整数 n 的质数的数量。</span></span><br><span class="line"><span class="comment"> * 示例 1：</span></span><br><span class="line"><span class="comment"> * 输入：n = 10</span></span><br><span class="line"><span class="comment"> * 输出：4</span></span><br><span class="line"><span class="comment"> * 解释：小于 10 的质数一共有 4 个, 它们是 2, 3, 5, 7 。</span></span><br><span class="line"><span class="comment"> * 解释：暴力法时间复杂度太高，学习了厄拉多塞筛法，即：每遍历一个数，就把该数的所有倍数标记为非素数。</span></span><br><span class="line"><span class="comment"> * 最后再对标记完成的数组便利，得到所有素数的个数。</span></span><br><span class="line"><span class="comment"> * 优化：第二个for循环中 j 从 i * i 开始，因为遍历到 i 时，前面的1i、2i、3i...肯定已经被标记过，</span></span><br><span class="line"><span class="comment"> * 故直接从 i * i 开始。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">Scanner ac = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line"><span class="keyword">int</span> n = ac.nextInt();</span><br><span class="line">ac.close();</span><br><span class="line"><span class="keyword">boolean</span>[] flag = <span class="keyword">new</span> <span class="keyword">boolean</span>[n];</span><br><span class="line">Arrays.fill(flag, <span class="keyword">true</span>);</span><br><span class="line"><span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">2</span>; i * i &lt;= n; i++) &#123;</span><br><span class="line">	<span class="keyword">if</span>(flag[i]) &#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j = i * i; j &lt; n; j += i) &#123;</span><br><span class="line">			flag[j] = <span class="keyword">false</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">2</span>; i &lt; n; i++) &#123;</span><br><span class="line">	<span class="keyword">if</span>(flag[i])</span><br><span class="line">		res++;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> res;</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 给定一个字符串数组，将字母异位词组合在一起。字母异位词指字母相同，但排列不同的字符串。</span></span><br><span class="line"><span class="comment"> * 示例:</span></span><br><span class="line"><span class="comment"> * 输入: [&quot;eat&quot;, &quot;tea&quot;, &quot;tan&quot;, &quot;ate&quot;, &quot;nat&quot;, &quot;bat&quot;]</span></span><br><span class="line"><span class="comment"> * 输出:</span></span><br><span class="line"><span class="comment"> * [</span></span><br><span class="line"><span class="comment"> *  [&quot;ate&quot;,&quot;eat&quot;,&quot;tea&quot;],</span></span><br><span class="line"><span class="comment"> *  [&quot;nat&quot;,&quot;tan&quot;],</span></span><br><span class="line"><span class="comment"> *  [&quot;bat&quot;]</span></span><br><span class="line"><span class="comment"> * ]</span></span><br><span class="line"><span class="comment"> * 解释：因为异位字符串其中包含字符相同，因此排序后所得字符串也相同。</span></span><br><span class="line"><span class="comment"> * 因此将排序后的字符串作为HashMap主键，value为list。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">String[] strs = &#123;<span class="string">&quot;eat&quot;</span>, <span class="string">&quot;tea&quot;</span>, <span class="string">&quot;tan&quot;</span>, <span class="string">&quot;ate&quot;</span>, <span class="string">&quot;nat&quot;</span>, <span class="string">&quot;bat&quot;</span>&#125;;</span><br><span class="line">Map&lt;String, List&lt;String&gt;&gt; map = <span class="keyword">new</span> HashMap&lt;String, List&lt;String&gt;&gt;();</span><br><span class="line">List&lt;List&lt;String&gt;&gt; res = <span class="keyword">new</span> ArrayList&lt;List&lt;String&gt;&gt;();</span><br><span class="line"><span class="keyword">for</span> (String string : strs) &#123;</span><br><span class="line">	<span class="keyword">char</span>[] cs = string.toCharArray();</span><br><span class="line">	Arrays.sort(cs);</span><br><span class="line">	String key = <span class="keyword">new</span> String(cs);</span><br><span class="line">	List&lt;String&gt; list = map.getOrDefault(key, <span class="keyword">new</span> ArrayList&lt;String&gt;());</span><br><span class="line">	list.add(string);</span><br><span class="line">	map.put(key, list);</span><br><span class="line">&#125;</span><br><span class="line">res = <span class="keyword">new</span> ArrayList&lt;List&lt;String&gt;&gt;(map.values());</span><br><span class="line"><span class="keyword">for</span>(List&lt;String&gt; l: res) &#123;</span><br><span class="line">	System.out.println(l);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>异或运算的应用：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 给定两个字符串 s 和 t，它们只包含小写字母。</span></span><br><span class="line"><span class="comment"> * 字符串 t 由字符串 s 随机重排，然后在随机位置添加一个字母。</span></span><br><span class="line"><span class="comment"> * 请找出在 t 中被添加的字母。</span></span><br><span class="line"><span class="comment"> * 示例 1：</span></span><br><span class="line"><span class="comment"> * 输入：s = &quot;abcd&quot;, t = &quot;abcde&quot;</span></span><br><span class="line"><span class="comment"> * 输出：&quot;e&quot;</span></span><br><span class="line"><span class="comment"> * 解释：&#x27;e&#x27; 是那个被添加的字母。</span></span><br><span class="line"><span class="comment"> * 解法1：太简单不说了。</span></span><br><span class="line"><span class="comment"> * 解法2：使用异或运算，（相同为0，不同为1），因此将两个字符串中的所有字符进行</span></span><br><span class="line"><span class="comment"> * 异或，最后剩下的就是多出来的那个字符。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">String string = <span class="string">&quot;ae&quot;</span>;</span><br><span class="line">String tString = <span class="string">&quot;aea&quot;</span>;</span><br><span class="line"><span class="keyword">int</span>[] countS = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">26</span>];</span><br><span class="line"><span class="keyword">int</span>[] countT = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">26</span>];</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">char</span> c : string.toCharArray()) &#123;</span><br><span class="line">	countS[c - <span class="string">&#x27;a&#x27;</span>] ++;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">char</span> c : tString.toCharArray()) &#123;</span><br><span class="line">	countS[c - <span class="string">&#x27;a&#x27;</span>] --;</span><br><span class="line">	<span class="keyword">if</span>(countS[c - <span class="string">&#x27;a&#x27;</span>] &lt; <span class="number">0</span>) &#123;</span><br><span class="line">		System.out.println(c);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//解法2：</span></span><br><span class="line">       <span class="keyword">char</span> res = <span class="number">0</span>;</span><br><span class="line">       <span class="keyword">for</span>(<span class="keyword">char</span> c : (s + t).toCharArray())&#123;</span><br><span class="line">           res ^= c;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> res;</span><br></pre></td></tr></table></figure>
+
+
+<p>二叉树广度优先搜索的变种：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 给定一个二叉树，返回其节点值的锯齿形层序遍历。</span></span><br><span class="line"><span class="comment"> * （即先从左往右，再从右往左进行下一层遍历，以此类推，</span></span><br><span class="line"><span class="comment"> * 层与层之间交替进行）。例如：</span></span><br><span class="line"><span class="comment"> * 给定二叉树 [3,9,20,null,null,15,7],</span></span><br><span class="line"><span class="comment"> *     3</span></span><br><span class="line"><span class="comment"> *    / \</span></span><br><span class="line"><span class="comment"> *   9  20</span></span><br><span class="line"><span class="comment"> *     /  \</span></span><br><span class="line"><span class="comment"> *    15   7</span></span><br><span class="line"><span class="comment"> *    返回锯齿形层序遍历如下：</span></span><br><span class="line"><span class="comment"> *    [</span></span><br><span class="line"><span class="comment"> *      [3],</span></span><br><span class="line"><span class="comment"> *      [20,9],</span></span><br><span class="line"><span class="comment"> *      [15,7]</span></span><br><span class="line"><span class="comment"> *    ]</span></span><br><span class="line"><span class="comment"> *    解释：按照广度优先搜索（BFS）的思路，按层遍历，然后根据当前层数的</span></span><br><span class="line"><span class="comment"> *    奇偶来判断是要正序遍历还是反序遍历。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">      List&lt;List&lt;Integer&gt;&gt; res = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">       <span class="keyword">if</span> (root == <span class="keyword">null</span>) <span class="keyword">return</span> res;</span><br><span class="line">       Queue&lt;TreeNode&gt; queue = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">       queue.offer(root);</span><br><span class="line">       <span class="keyword">int</span> t = <span class="number">0</span>;<span class="comment">//层数</span></span><br><span class="line">       <span class="keyword">while</span> (!queue.isEmpty()) &#123;</span><br><span class="line">           <span class="keyword">int</span> size = queue.size();</span><br><span class="line">           List&lt;Integer&gt; temp = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">           <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; i++) &#123;</span><br><span class="line">               TreeNode node = queue.poll();</span><br><span class="line">               <span class="keyword">if</span>(t%<span class="number">2</span>==<span class="number">0</span>)&#123;</span><br><span class="line">                   temp.add(node.val);</span><br><span class="line">               &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                   temp.add(<span class="number">0</span>,node.val);<span class="comment">//add方法中第一个参数可以是插入位置</span></span><br><span class="line">               &#125;</span><br><span class="line">               <span class="keyword">if</span> (node.left != <span class="keyword">null</span>) queue.add(node.left);</span><br><span class="line">               <span class="keyword">if</span> (node.right != <span class="keyword">null</span>) queue.add(node.right);</span><br><span class="line">           &#125;</span><br><span class="line">           res.add(temp);</span><br><span class="line">           t++;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> res;</span><br></pre></td></tr></table></figure>
+
+
+<p>贪心：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Dota2 参议院由来自两派的参议员组成。现在参议院希望对一个 Dota2 游戏里的改变作出决定。</span></span><br><span class="line"><span class="comment"> * 他们以一个基于轮为过程的投票进行。在每一轮中，</span></span><br><span class="line"><span class="comment"> * 每一位参议员都可以行使两项权利中的一项：</span></span><br><span class="line"><span class="comment"> * 禁止一名参议员的权利：</span></span><br><span class="line"><span class="comment"> * 参议员可以让另一位参议员在这一轮和随后的几轮中丧失所有的权利。</span></span><br><span class="line"><span class="comment"> * 宣布胜利：</span></span><br><span class="line"><span class="comment"> * 如果参议员发现有权利投票的参议员都是同一个阵营的，他可以宣布胜利并决定在游戏中的有关变化。</span></span><br><span class="line"><span class="comment"> * 给定一个字符串代表每个参议员的阵营。</span></span><br><span class="line"><span class="comment"> * 字母 “R” 和 “D” 分别代表了 Radiant（天辉）和 Dire（夜魇）。</span></span><br><span class="line"><span class="comment"> * 然后，如果有 n 个参议员，给定字符串的大小将是 n。</span></span><br><span class="line"><span class="comment"> * 以轮为基础的过程从给定顺序的第一个参议员开始到最后一个参议员结束。</span></span><br><span class="line"><span class="comment"> * 这一过程将持续到投票结束。所有失去权利的参议员将在过程中被跳过。</span></span><br><span class="line"><span class="comment"> * 假设每一位参议员都足够聪明，会为自己的政党做出最好的策略，</span></span><br><span class="line"><span class="comment"> * 你需要预测哪一方最终会宣布胜利并在 Dota2 游戏中决定改变。输出应该是 Radiant 或 Dire。</span></span><br><span class="line"><span class="comment"> * 示例 1：</span></span><br><span class="line"><span class="comment"> * 输入：&quot;RD&quot;</span></span><br><span class="line"><span class="comment"> * 输出：&quot;Radiant&quot;</span></span><br><span class="line"><span class="comment"> * 解释：第一个参议员来自 Radiant 阵营并且他可以使用第一项权利让第二个参议员失去权力，</span></span><br><span class="line"><span class="comment"> * 因此第二个参议员将被跳过因为他没有任何权利。然后在第二轮的时候，第一个参议员可以宣布胜利，</span></span><br><span class="line"><span class="comment"> * 因为他是唯一一个有投票权的人</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * 解释：贪心。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">Scanner ac = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line">String senate = ac.nextLine();</span><br><span class="line">StringBuilder sBuilder = <span class="keyword">new</span> StringBuilder(senate);</span><br><span class="line"><span class="keyword">int</span> R = <span class="number">0</span>, D = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">int</span> rKill = <span class="number">0</span>, dKill = <span class="number">0</span>;<span class="comment">//各方被踢掉的议员数</span></span><br><span class="line">ac.close();</span><br><span class="line"><span class="comment">//计算议员数量</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">char</span> c : senate.toCharArray()) &#123;</span><br><span class="line">	<span class="keyword">if</span>(<span class="string">&#x27;R&#x27;</span> == c) &#123;</span><br><span class="line">		R++;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">		D++;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">while</span>(R &gt; <span class="number">0</span> &amp;&amp; D &gt; <span class="number">0</span>) &#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; sBuilder.length(); i++) &#123;</span><br><span class="line">		<span class="keyword">if</span>(<span class="string">&#x27;R&#x27;</span> == sBuilder.charAt(i)) &#123;</span><br><span class="line">			<span class="keyword">if</span>(rKill &gt; <span class="number">0</span>) &#123;</span><br><span class="line">				sBuilder.replace(i, i+<span class="number">1</span>, <span class="string">&quot;x&quot;</span>);</span><br><span class="line">				rKill--;</span><br><span class="line">				R--;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span> &#123;</span><br><span class="line">				dKill++;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span>(<span class="string">&#x27;D&#x27;</span> == sBuilder.charAt(i)) &#123;</span><br><span class="line">			<span class="keyword">if</span>(dKill &gt; <span class="number">0</span>) &#123;</span><br><span class="line">				sBuilder.replace(i, i+<span class="number">1</span>, <span class="string">&quot;x&quot;</span>);</span><br><span class="line">				dKill--;</span><br><span class="line">				D--;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span> &#123;</span><br><span class="line">				rKill++;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">System.out.println(R &gt; <span class="number">0</span> ? <span class="string">&quot;Radiant&quot;</span> : <span class="string">&quot;Dire&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//队列：</span></span><br><span class="line">      <span class="keyword">int</span> n = senate.length();</span><br><span class="line">      Queue&lt;Integer&gt; radiant = <span class="keyword">new</span> LinkedList&lt;Integer&gt;();</span><br><span class="line">      Queue&lt;Integer&gt; dire    = <span class="keyword">new</span> LinkedList&lt;Integer&gt;();</span><br><span class="line">      <span class="comment">// 1. 遍历数组 记录下每个阵营议员的下标</span></span><br><span class="line">      <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i &lt; n;i++)&#123;</span><br><span class="line">          <span class="keyword">if</span>(senate.charAt(i) == <span class="string">&#x27;R&#x27;</span>)&#123;</span><br><span class="line">              radiant.offer(i);</span><br><span class="line">          &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">              dire.offer(i);</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">// 2. 如果两个队列都不空的情况下</span></span><br><span class="line">      <span class="keyword">while</span>(!radiant.isEmpty() &amp;&amp; !dire.isEmpty())&#123;</span><br><span class="line">          <span class="keyword">int</span> radiantIndex = radiant.poll();      <span class="comment">// radiant的第一名议员 暂时弹出</span></span><br><span class="line">          <span class="keyword">int</span> direIndex    = dire.poll();         <span class="comment">// dire 的第一名议员   暂时弹出</span></span><br><span class="line">          <span class="keyword">if</span>(radiantIndex &lt; direIndex)&#123;           <span class="comment">// 如果radiant第一名议员首元素较小</span></span><br><span class="line">              radiant.offer(radiantIndex + n);    <span class="comment">// 暂时弹出 +n之后重新放回队列 对应dire第一名议员永久弹出(ban掉)</span></span><br><span class="line">          &#125;<span class="keyword">else</span>&#123;                     <span class="comment">// 加上n后，可以保证这个议员只会参加下一轮，或者被上一轮的对手干掉。</span></span><br><span class="line">              dire.offer(direIndex + n);          <span class="comment">// 暂时弹出 +n之后重新放回队列 对应radiant第一名议员永久弹出(ban掉)</span></span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">// 3. 宣布胜利</span></span><br><span class="line">      <span class="keyword">return</span> !radiant.isEmpty()?<span class="string">&quot;Radiant&quot;</span>:<span class="string">&quot;Dire&quot;</span>; <span class="comment">// 最后非空的队列宣布胜利</span></span><br></pre></td></tr></table></figure>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="https://github.com/scorpionedge/scorpionedge.github.io/blob/master/images/alipay.jpg?raw=true">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/08/20/SpringBoot1/" class="archive-article-date">
-  	<time datetime="2020-08-19T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-20</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/08/20/SpringBoot1/">创建一个Spring Boot项目</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Spring Boot</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">leecode</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2020/12/23/leetcode02/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/08/05/UnableConnDB/" class="archive-article-date">
-  	<time datetime="2020-08-04T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-05</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2020/12/22/pythonExcel/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">使用python操作excel表格进行简单的数据处理</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/08/05/UnableConnDB/">关于数据库工具（WorkBench等）连接不上阿里云服务器上的MySQL数据库的解决方法</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">防火墙</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">数据库连接失败</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    目录，不存在的…
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+        
+    </div>
+</aside>
+
+
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/08/04/yunduanBushu/" class="archive-article-date">
-  	<time datetime="2020-08-03T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-04</time>
-</a>
-        </div>
-    	 
+  <div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="leetcode02" data-title="记录一下近期leetcode上刷到的个人感觉有意思的题(厄拉多塞筛法、贪心)" data-url="http://example.com/2020/12/23/leetcode02/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/08/04/yunduanBushu/">将本地Java后台项目部署至阿里云服务器（Ubuntu）</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">项目部署</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
+
+  
 
 
           </div>
@@ -296,8 +387,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
