@@ -6,33 +6,15 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>使用JDBC连接服务器端MySQL实现的学生信息管理系统 | ScorpioN</title>
+  <title>Archives: 2020 | ScorpioN</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="今天搞了一下以前做的一个课设，是一个挺简陋的学生信息管理系统。因为最近不是租了一个腾讯云的服务器吗，我就想试一下JDBC连接云端的MySQL，顺便也复习一下相关的知识吧。  工具是eclipse、putty和MySQL workbench。先在服务器端建好相应的库和表：">
-<meta property="og:type" content="article">
-<meta property="og:title" content="使用JDBC连接服务器端MySQL实现的学生信息管理系统">
-<meta property="og:url" content="http://example.com/2019/01/31/JDBCMySql/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="ScorpioN">
+<meta property="og:url" content="http://example.com/archives/2020/page/2/index.html">
 <meta property="og:site_name" content="ScorpioN">
-<meta property="og:description" content="今天搞了一下以前做的一个课设，是一个挺简陋的学生信息管理系统。因为最近不是租了一个腾讯云的服务器吗，我就想试一下JDBC连接云端的MySQL，顺便也复习一下相关的知识吧。  工具是eclipse、putty和MySQL workbench。先在服务器端建好相应的库和表：">
 <meta property="og:locale">
-<meta property="og:image" content="http://example.com/2019/01/31/JDBCMySql/JDBCMySql%5Cstudent.PNG">
-<meta property="og:image" content="http://example.com/2019/01/31/JDBCMySql/JDBCMySql%5Ccurse.PNG">
-<meta property="og:image" content="http://example.com/2019/01/31/JDBCMySql/JDBCMySql%5Cpride.PNG">
-<meta property="og:image" content="http://example.com/2019/01/31/JDBCMySql/JDBCMySql%5Cjar.PNG">
-<meta property="og:image" content="http://example.com/2019/01/31/JDBCMySql/JDBCMySql%5Cmain.PNG">
-<meta property="og:image" content="http://example.com/2019/01/31/JDBCMySql/JDBCMySql%5Cmohu.PNG">
-<meta property="og:image" content="http://example.com/2019/01/31/JDBCMySql/JDBCMySql%5Cjingque.PNG">
-<meta property="og:image" content="http://example.com/2019/01/31/JDBCMySql/JDBCMySql%5Cgopride.PNG">
-<meta property="og:image" content="http://example.com/2019/01/31/JDBCMySql/JDBCMySql%5Cchangegride.PNG">
-<meta property="og:image" content="http://example.com/2019/01/31/JDBCMySql/JDBCMySql%5Cchanged.PNG">
-<meta property="article:published_time" content="2019-01-30T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-02-26T02:11:38.641Z">
 <meta property="article:author" content="ScorpioN">
-<meta property="article:tag" content="MySQL">
-<meta property="article:tag" content="JDBC">
-<meta property="article:tag" content="Java swing">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2019/01/31/JDBCMySql/JDBCMySql%5Cstudent.PNG">
   
     <link rel="alternative" href="/atom.xml" title="ScorpioN" type="application/atom+xml">
   
@@ -158,264 +140,67 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-JDBCMySql" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+            
   
-    <h1 class="article-title" itemprop="name">
-      使用JDBC连接服务器端MySQL实现的学生信息管理系统
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2020" class="archive-year">2020</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2020/01/05/hduoj1/" class="archive-article-date">
+  	<time datetime="2020-01-04T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-05</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2020/01/05/hduoj1/">贪心算法和动态规划问题</a>
     </h1>
   
 
-        
-        <a href="/2019/01/31/JDBCMySql/" class="archive-article-date">
-  	<time datetime="2019-01-30T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-31</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>今天搞了一下以前做的一个课设，是一个挺简陋的学生信息管理系统。因为最近不是租了一个腾讯云的服务器吗，我就想试一下JDBC连接云端的MySQL，顺便也复习一下相关的知识吧。</p>
-</blockquote>
-<p>工具是eclipse、putty和MySQL workbench。先在服务器端建好相应的库和表：</p>
-<a id="more"></a>
-
-<p>学生表：</p>
-<p><img src="JDBCMySql%5Cstudent.PNG"></p>
-<p>分别是学号、姓名、性别、年龄和班级。其中主键和外键是学号。</p>
-<p>课程表：</p>
-<p><img src="JDBCMySql%5Ccurse.PNG"></p>
-<p>分别是课程号、课程名、学时和学分。其中课程号是主键和外键。</p>
-<p>成绩表：</p>
-<p><img src="JDBCMySql%5Cpride.PNG"></p>
-<p>分别是学号、课程号、姓名、课程名、成绩、绩点和学分。其中学号和课程号是主键和外键。</p>
-<p>下面就要开始使用JDBC了，使用的大概步骤如下：</p>
-<p>1、引用jar包：先从网上下载JDBC的jar包，然后在工程目录下新建一个名为：lib 的文件夹，将jar包粘贴到里面，然后右键jar包-&gt;path-&gt;add to path，最后效果像下面这样就行了：</p>
-<p><img src="JDBCMySql%5Cjar.PNG"></p>
-<p>2、代码：</p>
-<p>用查询学生信息的代码举例吧：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 1 注册驱动  </span><br><span class="line">private String dirver &#x3D; &quot;com.mysql.cj.jdbc.Driver&quot;;</span><br><span class="line">&#x2F;&#x2F; 2 建立与数据库的连接 连接数据库的协议:子协议:&#x2F;&#x2F;ip地址:数据库端口号&#x2F;数据库名</span><br><span class="line">private String url &#x3D; &quot;jdbc:mysql:&#x2F;&#x2F;129.211.17.60:3306&#x2F;sims?useSSL&#x3D;false&amp;serverTimezone&#x3D;GMT&quot;;</span><br></pre></td></tr></table></figure>
-<p>然后方法端：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">try &#123; &#x2F;&#x2F; 捕获异常</span><br><span class="line">		&#x2F;&#x2F; （加载驱动） 将 驱动包 ，加载到计算机的内存中</span><br><span class="line">	Class.forName(dirver); &#x2F;&#x2F; 使用的 是 Java的 反射机制</span><br><span class="line">	&#x2F;&#x2F; 建立与数据库的连接                 </span><br><span class="line">	Connection connection &#x3D; DriverManager.getConnection(url, user,&quot;*****&quot;);&#x2F;&#x2F;连接、用户名和用户密码</span><br><span class="line">	&#x2F;&#x2F; 创建一个代表SQL的语句的对象 (Statement对象)</span><br><span class="line">	Statement Statement &#x3D; connection.createStatement();</span><br><span class="line">	</span><br><span class="line">	&#x2F;&#x2F; 编写SQL语句</span><br><span class="line">	String sql &#x3D; &quot;select *  from  sims.student where S_id&#x3D;&quot;+id;</span><br><span class="line">	String sql1 &#x3D; &quot;select * from sims.student where S_id like &#39;%&quot; +id +&quot;%&#39;&quot; ;&#x2F;&#x2F;模糊查询语句</span><br><span class="line"></span><br><span class="line">	&#x2F;&#x2F; 执行 SQL语句</span><br><span class="line">	&#x2F;&#x2F; ResultSet 接收查询返回的结果集的一个接口 result 定义的一个接收返回结果的变量名</span><br><span class="line">	ResultSet result &#x3D; Statement.executeQuery(sql);</span><br><span class="line">	&#x2F;&#x2F; 将查询返回的结果集进行遍历输出</span><br><span class="line">	while (result.next()) &#123;</span><br><span class="line">		String id1 &#x3D; result.getString(&quot;S_id&quot;);</span><br><span class="line">		String name &#x3D; result.getString(&quot;S_name&quot;);</span><br><span class="line">		String sex &#x3D; result.getString(&quot;S_sex&quot;);</span><br><span class="line">		String age &#x3D; result.getString(&quot;S_age&quot;);</span><br><span class="line">		String class1 &#x3D; result.getString(&quot;S_class&quot;);</span><br><span class="line">		m1+&#x3D;&quot;学号：&quot; + id1 + &quot;\n&quot; </span><br><span class="line">		+ &quot;名字：&quot; + name +&quot;\n&quot;+&quot;性别：&quot;+sex+&quot;\n&quot;+&quot;年龄：&quot;+age+&quot;\n&quot;+&quot;班级：&quot;+class1+&quot;\n&quot;;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	if(m1.equals(&quot;&quot;)) &#123;  &#x2F;&#x2F;若准确查询查不到，进行模糊查询</span><br><span class="line">		Statement statement &#x3D; connection.createStatement();</span><br><span class="line">		ResultSet r &#x3D; statement.executeQuery(sql1);</span><br><span class="line">		while(r.next()) &#123;</span><br><span class="line">			String id1 &#x3D; r.getString(&quot;S_id&quot;);</span><br><span class="line">			String name &#x3D; r.getString(&quot;S_name&quot;);</span><br><span class="line">			String sex &#x3D; r.getString(&quot;S_sex&quot;);</span><br><span class="line">			String age &#x3D; r.getString(&quot;S_age&quot;);</span><br><span class="line">			String class1 &#x3D; r.getString(&quot;S_class&quot;);</span><br><span class="line">			m1+&#x3D;&quot;学号：&quot; + id1 + &quot;\n&quot; + &quot;名字：&quot; + name +&quot;\n&quot;+&quot;性别：&quot;+sex+&quot;\n&quot;+&quot;年龄：&quot;+age+&quot;\n&quot;+&quot;班级：&quot;+class1+&quot;\n&quot;;</span><br><span class="line">		&#125;</span><br><span class="line">		if(m1.equals(&quot;&quot;)) &#123;    &#x2F;&#x2F;若模糊查询仍查不到，则提示不存在该信息</span><br><span class="line">			JOptionPane.showMessageDialog(null, &quot;学号输入错误或学号不存在！&quot;);</span><br><span class="line">		&#125;</span><br><span class="line">		r.close();</span><br><span class="line">		statement.close();</span><br><span class="line">	&#125;</span><br><span class="line">	&#x2F;&#x2F;释放占用连接的资源    有顺序</span><br><span class="line">	result.close();  </span><br><span class="line">	Statement.close();</span><br><span class="line">	connection.close(); &#x2F;&#x2F;最后关闭连接</span><br><span class="line">	</span><br><span class="line">&#125; catch (ClassNotFoundException e) &#123;</span><br><span class="line">	e.printStackTrace(); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><code>mysql冒号后面的就是目标服务器的IP地址，3360是开放的MySQL端口。sims是数据库名称，后面那段useSSL是新版本的MySQL必须要加的，估计是因为安全？？？？不明觉厉。</code></p>
-<p>大概使用的规则就是这样啦！把查询信息的结果放一下：</p>
-<p><img src="JDBCMySql%5Cmain.PNG"></p>
-<p><img src="JDBCMySql%5Cmohu.PNG" alt="模糊查询"></p>
-<p><img src="JDBCMySql%5Cjingque.PNG" alt="精确查询"></p>
-<p>还有查询成绩的代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">try &#123; &#x2F;&#x2F; 捕获异常</span><br><span class="line">				&#x2F;&#x2F; （加载驱动） 将 驱动包 ，加载到计算机的内存中</span><br><span class="line">			Class.forName(dirver); &#x2F;&#x2F; 使用的 是 Java的 反射机制</span><br><span class="line">			&#x2F;&#x2F; 建立与数据库的连接                 </span><br><span class="line">			Connection connection &#x3D; DriverManager.getConnection(url, user,&quot;*Noob1234&quot;);</span><br><span class="line">			&#x2F;&#x2F; 创建一个代表SQL的语句的对象 (Statement对象)</span><br><span class="line">			Statement Statement &#x3D; connection.createStatement();</span><br><span class="line">			</span><br><span class="line">			&#x2F;&#x2F; 编写SQL语句</span><br><span class="line">			String sql1 &#x3D; &quot;select * from sims.student where S_id&#x3D;&quot;+id;</span><br><span class="line">			String sql &#x3D; &quot;select *  from  sims.pride where P_sid&#x3D;&#39;&quot;+id+&quot;&#39; order by P_pride DESC&quot;;</span><br><span class="line">			&#x2F;&#x2F; 执行 SQL语句</span><br><span class="line">			&#x2F;&#x2F; ResultSet 接收查询返回的结果集的一个接口 result 定义的一个接收返回结果的变量名</span><br><span class="line">			</span><br><span class="line">			ResultSet r1 &#x3D; Statement.executeQuery(sql1);</span><br><span class="line">			</span><br><span class="line">			while(r1.next()) &#123;</span><br><span class="line">				String n &#x3D; r1.getString(&quot;S_id&quot;);</span><br><span class="line">				m6 +&#x3D; n;</span><br><span class="line">			&#125;</span><br><span class="line">			if(m6.equals(&quot;&quot;)) &#123;</span><br><span class="line">				JOptionPane.showMessageDialog(null, &quot;学号输入错误或学号不存在！&quot;);</span><br><span class="line">				r1.close();</span><br><span class="line">			&#125;</span><br><span class="line">			else &#123;</span><br><span class="line">				ResultSet result &#x3D; Statement.executeQuery(sql);</span><br><span class="line">				&#x2F;&#x2F; 将查询返回的结果集进行遍历输出</span><br><span class="line">				while (result.next()) &#123;</span><br><span class="line">					String name &#x3D; result.getString(&quot;P_cname&quot;);</span><br><span class="line">					String pride &#x3D; result.getString(&quot;P_pride&quot;);</span><br><span class="line">					String jidian &#x3D; result.getString(&quot;P_jidian&quot;);</span><br><span class="line">					String point &#x3D; result.getString(&quot;P_xuefen&quot;);</span><br><span class="line">					m2+&#x3D;name + &quot;\t          &quot;+pride+&quot;\t               &quot;+jidian+&quot;\t                     &quot;+point+&quot;               &quot;;</span><br><span class="line">					if(Integer.parseInt(pride)&lt;60) &#123;</span><br><span class="line">						m2+&#x3D;&quot;FAIL!&quot;+&quot;\n&quot;;&#x2F;&#x2F;挂了的后面加上FAIL</span><br><span class="line">					&#125;</span><br><span class="line">					else &#123;</span><br><span class="line">						m2+&#x3D;&quot;PASS!&quot;+&quot;\n&quot;;&#x2F;&#x2F;通过的后面加上PASS</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">				if(m2.equals(&quot;&quot;)) &#123;</span><br><span class="line">					JOptionPane.showMessageDialog(null, &quot;学号不存在或该学生暂无成绩！&quot;);</span><br><span class="line">				&#125;</span><br><span class="line">				&#x2F;&#x2F;释放占用连接的资源    有顺序</span><br><span class="line">				result.close();  </span><br><span class="line">				Statement.close();</span><br><span class="line">				connection.close(); &#x2F;&#x2F;最后关闭连接</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;catch (ClassNotFoundException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br></pre></td></tr></table></figure>
-<p><code>这里面sql1是先在student表中查找是否存在该学生，若存在则在成绩表中查询，不存在则提示错误。其中sql是对分数进行降序排列查找。这之中的id由于是字符串形式，所以两边应该必须各有一个单引号把它括起来。还要记得在显示完结果后将变量m6初始化。结果如下：</code></p>
-<p><img src="JDBCMySql%5Cgopride.PNG" alt="查询成绩"></p>
-<p>然后添加、修改学生，删除学生修改成绩什么的都是差不多的啦！</p>
-<p>其中所有的添加、修改功能我都用了PreparedStatement，据说这样子可以防止恶意SQL注入！很🐮🍺的样子，下面列出修改成绩的代码及结果：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">try &#123; &#x2F;&#x2F; 捕获异常</span><br><span class="line">		&#x2F;&#x2F; （加载驱动） 将 驱动包 ，加载到计算机的内存中</span><br><span class="line">	Class.forName(dirver); &#x2F;&#x2F; 使用的 是 Java的 反射机制</span><br><span class="line">	&#x2F;&#x2F; 建立与数据库的连接               </span><br><span class="line">	Connection connection2 &#x3D; DriverManager.getConnection(url, admin,&quot;*******&quot;);			</span><br><span class="line">	&#x2F;&#x2F; 编写SQL语句</span><br><span class="line">	String sql1 &#x3D; &quot;select * from sims.pride where P_sid &#x3D;&quot; + updateid +&quot;&amp;&amp; P_cid &#x3D;&quot; + updatelessonid;</span><br><span class="line">	String sql &#x3D; &quot;update sims.pride set P_pride&#x3D;?, P_jidian&#x3D;?, P_xuefen&#x3D;? where P_sid &#x3D; &quot; + updateid +&quot;&amp;&amp; P_cid &#x3D; &quot; + updatelessonid;</span><br><span class="line">	&#x2F;&#x2F;检查添加学生是否存在于数据库中</span><br><span class="line">	Statement ps1 &#x3D; connection2.createStatement();</span><br><span class="line">	ResultSet result2 &#x3D; ps1.executeQuery(sql1);</span><br><span class="line">	while (result2.next()) &#123;</span><br><span class="line">		String id1 &#x3D; result2.getString(&quot;P_sid&quot;);</span><br><span class="line">		m4+&#x3D;id1;</span><br><span class="line">	&#125;</span><br><span class="line">	if(m4&#x3D;&#x3D;&quot;&quot;) &#123;</span><br><span class="line">		JOptionPane.showMessageDialog(null, &quot;该学号不存在或该同学没有该科成绩！请重新输入！&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">	else &#123;</span><br><span class="line">		&#x2F;&#x2F; 创建一个代表SQL的语句的对象 (Statement对象)</span><br><span class="line">		PreparedStatement Statement &#x3D; connection2.prepareStatement(sql);</span><br><span class="line">		Statement.setString(1, updategride);</span><br><span class="line">		Statement.setFloat(2, updatepoint);</span><br><span class="line">		Statement.setFloat(3, updatejidian);</span><br><span class="line">		</span><br><span class="line">		Statement.addBatch();</span><br><span class="line">		Statement.executeBatch();</span><br><span class="line">		</span><br><span class="line">		JOptionPane.showMessageDialog(null, &quot;修改成功！&quot;);</span><br><span class="line">		m4&#x3D;&quot;&quot;;&#x2F;&#x2F;初始化</span><br><span class="line">	</span><br><span class="line">		Statement.close();</span><br><span class="line">		connection2.close(); &#x2F;&#x2F;最后关闭连接</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125; catch (ClassNotFoundException e) &#123;</span><br><span class="line">	e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>PreparedStatement的具体使用方法大概就是像上面那样了，对不同的数据使用不同的方法，比如setString、setFloat什么的。括号后面的数字意思分别是第几个元素和需要将其设置的值。</p>
-<p>结果如下:</p>
-<p><img src="JDBCMySql%5Cchangegride.PNG" alt="修改成绩"></p>
-<p><img src="JDBCMySql%5Cchanged.PNG" alt="修改成绩"></p>
-<p><code>体育及格了哈哈哈</code></p>
-<p>剩下的就基本照葫芦画瓢就行了，都挺简单的。而且eclipse的window builder配合Java swing使用挺方便的。不过在使用Java swing制作界面的时候，我有遇见一个问题，那就是假设我生成了三个界面a,b,c，此时我只想关闭界面b，其他两个留着，但是我只要关闭其中一个其他所有的就都关了。。。这个问题一开始还挺困扰我的，后来百度了半天后发现有个大神提供的解决方案：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">name.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);</span><br></pre></td></tr></table></figure>
-<p>这个name就是你JFrame的名字，在每个页面后加上这句话，这样一来就可以做到仅关闭某个页面的效果啦！</p>
-<p>overover！</p>
-
-      
-
-      
-        <div class="page-reward">
-          <a href="javascript:;" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
-                  <div class="reward-box">
-                    
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="https://github.com/scorpionedge/scorpionedge.github.io/blob/master/images/alipay.jpg?raw=true">
-                      <span class="reward-type">支付宝</span>
-                    </div>
-                    
-                    
-                  </div>
-                </span>
-              </span>
-            </span>
-          </div>
-          </a>
-        </div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">MySQL</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">动态规划</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">JDBC</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Java swing</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">贪心算法</a>
         		</li>
       		
 		</ul>
 	</div>
 
-      
+          
 
-      
-
-      
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
         </div>
-      </div>
-    </span>
-  </div>
-</div>
-
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2019/01/31/JDBCMySql/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-      
-      <div class="clearfix"></div>
-    </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2019/02/09/wxxcxReply/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          微信小程序之社区讨论模块（二）评论+我的消息
-        
-      </div>
-    </a>
   
   
-    <a href="/2019/01/27/wxxcxTB/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">微信小程序之社区讨论模块（一）首页加载+进入帖子</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-        <div class="toc-container tooltip-left">
-            <i class="icon-font icon-category"></i>
-            <div class="tooltip tooltip-east">
-                <span class="tooltip-item">
-                </span>
-                <span class="tooltip-content">
-                    <div class="toc-article">
-                    目录，不存在的…
-                    </div>
-                </span>
-            </div>
-        </div>
-        
-    </div>
-</aside>
-
-
-
-  
-  <div class="duoshuo">
-	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="JDBCMySql" data-title="使用JDBC连接服务器端MySQL实现的学生信息管理系统" data-url="http://example.com/2019/01/31/JDBCMySql/"></div>
-	<!-- 多说评论框 end -->
-	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-	<script type="text/javascript">
-	var duoshuoQuery = {short_name:"true"};
-	(function() {
-		var ds = document.createElement('script');
-		ds.type = 'text/javascript';ds.async = true;
-		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-		ds.charset = 'UTF-8';
-		(document.getElementsByTagName('head')[0] 
-		 || document.getElementsByTagName('body')[0]).appendChild(ds);
-	})();
-	</script>
-	<!-- 多说公共JS代码 end -->
-</div>
-
-  
-  
+    </div></section>
   
 
-  
-
-  
-
+    
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/archives/2020/">&amp;laquo; Prev</a><a class="page-number" href="/archives/2020/">1</a><span class="page-number current">2</span>
+    </nav>
   
 
 
@@ -439,8 +224,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: true,
-		isArchive: false,
+		isPost: false,
+		isArchive: true,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
