@@ -142,6 +142,95 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-hackerattack" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/12/28/hackerattack/">前几天服务器的数据库居然被黑客攻击了。。。</a>
+    </h1>
+  
+
+        
+        <a href="/2020/12/28/hackerattack/" class="archive-article-date">
+  	<time datetime="2020-12-27T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-12-28</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>昨天想上服务器数据库看看之前项目的数据，结果突然发现所有的库表都变成WARNING了？？？我一头问号，什么情况？！</p>
+</blockquote>
+<p><img src="http://116.62.150.158/pic/hackerAttack/warning.jpg"></p>
+<p>里面信息如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">To recover your lost databases and avoid leaking it: visit http:&#x2F;&#x2F;hn4wg4o6s5nc7763.onion and enter your unique token 63213cf663712c5f and pay the required amount of Bitcoin to get it back. Databases that we have: shx, reply, BBS. Your databases are downloaded and backed up on our servers. If we dont receive your payment in the next 9 Days, we will sell your database to the highest bidder or use them otherwise. To access this site you have use the tor browser https:&#x2F;&#x2F;www.torproject.org&#x2F;projects&#x2F;torbrowser.html</span><br></pre></td></tr></table></figure>
+<p>WDNMD，为啥我这小破服务器还能被勒索啊？？？</p>
+<p>在百度半天、与阿里云客服咨询无果后，，只能自己认倒霉了。。</p>
+<p>网上说要避免这种情况发生，最好就是数据库只对特定IP开放，并且用户密码设置的复杂一点，不要使用最普通的3306端口。。。其他那些要花钱买安全服务的我就忽略不见了😂</p>
+<p>然后开启了MySQL操作、登录日志：</p>
+<p><code>配置文件中加上</code></p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">log-bin</span>=mysql-bin</span><br><span class="line"><span class="attr">server-id</span>=<span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p><code>然后MySQL命令行输入</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#打开日志</span><br><span class="line">SET GLOBAL general_log &#x3D; &#39;On&#39;;</span><br><span class="line">#查看当前日志</span><br><span class="line">show master status;</span><br><span class="line">#查看日志状态</span><br><span class="line">show variables like &#39;log_%&#39;;</span><br></pre></td></tr></table></figure>
+<p>最后把3306端口从防火墙删掉，换了一个一万多的端口😫</p>
+<p>气死我了</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">黑客nmsl</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/12/28/hackerattack/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-pythonpachong" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -868,84 +957,6 @@
 
 
   
-    <article id="post-fenpingmian" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/02/14/fenpingmian/">直线、切线切分平面问题</a>
-    </h1>
-  
-
-        
-        <a href="/2020/02/14/fenpingmian/" class="archive-article-date">
-  	<time datetime="2020-02-13T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>今天刷杭电OJ时做到一道感觉很有意思的题，大意就是要求出在一个平面内，n条折线最多可以将平面分成多少个小的部分。一下是我看到大佬做的总结，觉得很有用，故摘抄记录下来。</p>
-</blockquote>
-        
-          <a class="article-more-a" href="/2020/02/14/fenpingmian/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">acm</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/02/14/fenpingmian/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
@@ -1043,18 +1054,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">php</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">微信公众号</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Spring Boot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">MySQL</a>
               </li>
              
@@ -1064,6 +1063,18 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Java swing</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">php</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">微信公众号</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Spring Boot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1083,11 +1094,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">动态规划</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">贪心算法</a>
+                <a href="javascript:void(0)" class="js-tag color2">黑客nmsl</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1096,6 +1103,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">leecode</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">动态规划</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">贪心算法</a>
               </li>
              
               <li class="article-tag-list-item">
