@@ -15,17 +15,17 @@
 <meta property="og:site_name" content="ScorpioN">
 <meta property="og:description" content="这两周实在太无聊了。。经理给我们分配的练习我两天就弄完了，导致后面两周我都没什么事情做。。看源码没人讲解也看不懂😂有点想换一个部门了。。。。索性自己学学别的东西（想学Spring Boot很久了。。之前就弄过老的SSM。。一直想做后台的工作，结果给我分到综合前端。。。吐血），虽然工作上也用不到。。">
 <meta property="og:locale">
-<meta property="og:image" content="http://116.62.150.158/pic/SpringBoot/1.jpg">
-<meta property="og:image" content="http://116.62.150.158/pic/SpringBoot/2.jpg">
-<meta property="og:image" content="http://116.62.150.158/pic/SpringBoot/3.jpg">
-<meta property="og:image" content="http://116.62.150.158/pic/SpringBoot/4.jpg">
-<meta property="og:image" content="http://116.62.150.158/pic/SpringBoot/5.jpg">
+<meta property="og:image" content="https://www.scorp1on.cn/pic/SpringBoot/1.jpg">
+<meta property="og:image" content="https://www.scorp1on.cn/pic/SpringBoot/2.jpg">
+<meta property="og:image" content="https://www.scorp1on.cn/pic/SpringBoot/3.jpg">
+<meta property="og:image" content="https://www.scorp1on.cn/pic/SpringBoot/4.jpg">
+<meta property="og:image" content="https://www.scorp1on.cn/pic/SpringBoot/5.jpg">
 <meta property="article:published_time" content="2020-08-19T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-12-22T07:38:14.586Z">
+<meta property="article:modified_time" content="2020-12-31T06:59:32.258Z">
 <meta property="article:author" content="ScorpioN">
 <meta property="article:tag" content="Spring Boot">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://116.62.150.158/pic/SpringBoot/1.jpg">
+<meta name="twitter:image" content="https://www.scorp1on.cn/pic/SpringBoot/1.jpg">
   
     <link rel="alternative" href="/atom.xml" title="ScorpioN" type="application/atom+xml">
   
@@ -178,19 +178,19 @@
 
 <p><code>首先确保电脑上用的是jdk 1.8及以上的版本。。要不然根本用不了spring boot。。。之前就是因为这个卡了一天。。。</code></p>
 <p>然后idea新建一个项目：</p>
-<p><img src="http://116.62.150.158/pic/SpringBoot/1.jpg" alt="新建项目"></p>
+<p><img src="https://www.scorp1on.cn/pic/SpringBoot/1.jpg" alt="新建项目"></p>
 <p>点next，然后选择需要安装的依赖：</p>
-<img src="http://116.62.150.158/pic/SpringBoot/2.jpg" alt="安装依赖" style="zoom: 80%;" />
+<img src="https://www.scorp1on.cn/pic/SpringBoot/2.jpg" alt="安装依赖" style="zoom: 80%;" />
 
 <p>然后next，finish。</p>
 <p>这时候项目很可能没有安装上你点的那些依赖，因此你需要在pom.xml文件上加上一段阿里云仓库的镜像（我在maven的配置文件settings.xml上添加了发现并没有用，郁闷，因为依赖报红这个问题卡了将近两天。）,与<dependencies>标签同级。然后点import，他就会自动开始下载你pom.xml文件中添加的依赖包。</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">repositories</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">repository</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">id</span>&gt;</span>public<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>aliyun<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">url</span>&gt;</span>http://maven.aliyun.com/nexus/content/groups/public<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">releases</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">enabled</span>&gt;</span>true<span class="tag">&lt;/<span class="name">enabled</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">releases</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">repository</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">repositories</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>等完成后就差不多建好了，此时项目的目录大概是这样的：</p>
-<p><img src="http://116.62.150.158/pic/SpringBoot/3.jpg"></p>
+<p><img src="https://www.scorp1on.cn/pic/SpringBoot/3.jpg"></p>
 <p>其中Mybatis、Spring是在application.properties中配置的：</p>
-<p><img src="http://116.62.150.158/pic/SpringBoot/4.jpg"></p>
+<p><img src="https://www.scorp1on.cn/pic/SpringBoot/4.jpg"></p>
 <p>然后建三层结构，就可以开始做东西了。</p>
-<p><img src="http://116.62.150.158/pic/SpringBoot/5.jpg"></p>
+<p><img src="https://www.scorp1on.cn/pic/SpringBoot/5.jpg"></p>
 <p>接下来记点笔记：</p>
 <ol>
 <li><p>切记在pom.xml中添加阿里云镜像。</p>
@@ -542,15 +542,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Spring Boot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">防火墙</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">数据库连接失败</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Spring Boot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -590,11 +590,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">爬虫</a>
+                <a href="javascript:void(0)" class="js-tag color5">xlrd</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">xlrd</a>
+                <a href="javascript:void(0)" class="js-tag color3">爬虫</a>
               </li>
              
               <li class="article-tag-list-item">

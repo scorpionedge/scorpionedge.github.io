@@ -15,24 +15,24 @@
 <meta property="og:site_name" content="ScorpioN">
 <meta property="og:description" content="上班划水实在无聊。。正好最近比较喜欢看基金，于是就想着自己弄一个爬虫脚本，可以爬取每天最新的基金排行，以便我观察那几个基金的趋势。。。（因为实在太无聊了）😂">
 <meta property="og:locale">
-<meta property="og:image" content="http://116.62.150.158/pic/pythonPachong/chooseWeb.jpg">
-<meta property="og:image" content="http://116.62.150.158/pic/pythonPachong/rightCheck.jpg">
-<meta property="og:image" content="http://116.62.150.158/pic/pythonPachong/rankFile.jpg">
-<meta property="og:image" content="http://116.62.150.158/pic/pythonPachong/cantVisit.jpg">
-<meta property="og:image" content="http://116.62.150.158/pic/pythonPachong/requestSuccess.jpg">
-<meta property="og:image" content="http://116.62.150.158/pic/pythonPachong/requestFail.jpg">
-<meta property="og:image" content="http://116.62.150.158/pic/pythonPachong/requestParams.jpg">
-<meta property="og:image" content="http://116.62.150.158/pic/pythonPachong/print1.jpg">
-<meta property="og:image" content="http://116.62.150.158/pic/pythonPachong/print2.jpg">
-<meta property="og:image" content="http://116.62.150.158/pic/pythonPachong/print3.jpg">
-<meta property="og:image" content="http://116.62.150.158/pic/pythonPachong/isUsed.jpg">
+<meta property="og:image" content="https://www.scorp1on.cn/pic/pythonPachong/chooseWeb.jpg">
+<meta property="og:image" content="https://www.scorp1on.cn/pic/pythonPachong/rightCheck.jpg">
+<meta property="og:image" content="https://www.scorp1on.cn/pic/pythonPachong/rankFile.jpg">
+<meta property="og:image" content="https://www.scorp1on.cn/pic/pythonPachong/cantVisit.jpg">
+<meta property="og:image" content="https://www.scorp1on.cn/pic/pythonPachong/requestSuccess.jpg">
+<meta property="og:image" content="https://www.scorp1on.cn/pic/pythonPachong/requestFail.jpg">
+<meta property="og:image" content="https://www.scorp1on.cn/pic/pythonPachong/requestParams.jpg">
+<meta property="og:image" content="https://www.scorp1on.cn/pic/pythonPachong/print1.jpg">
+<meta property="og:image" content="https://www.scorp1on.cn/pic/pythonPachong/print2.jpg">
+<meta property="og:image" content="https://www.scorp1on.cn/pic/pythonPachong/print3.jpg">
+<meta property="og:image" content="https://www.scorp1on.cn/pic/pythonPachong/isUsed.jpg">
 <meta property="article:published_time" content="2020-12-24T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-12-25T03:41:15.834Z">
+<meta property="article:modified_time" content="2020-12-31T06:58:38.270Z">
 <meta property="article:author" content="ScorpioN">
 <meta property="article:tag" content="python">
 <meta property="article:tag" content="爬虫">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://116.62.150.158/pic/pythonPachong/chooseWeb.jpg">
+<meta name="twitter:image" content="https://www.scorp1on.cn/pic/pythonPachong/chooseWeb.jpg">
   
     <link rel="alternative" href="/atom.xml" title="ScorpioN" type="application/atom+xml">
   
@@ -184,45 +184,45 @@
 <a id="more"></a>
 
 <p>一开始网上找了一会，最终决定爬取这个网页的基金数据：</p>
-<img src="http://116.62.150.158/pic/pythonPachong/chooseWeb.jpg" alt="天天基金网" style="zoom: 67%;" />
+<img src="https://www.scorp1on.cn/pic/pythonPachong/chooseWeb.jpg" alt="天天基金网" style="zoom: 67%;" />
 
 <p>然后右键检查：</p>
-<img src="http://116.62.150.158/pic/pythonPachong/rightCheck.jpg" style="zoom:67%;" />
+<img src="https://www.scorp1on.cn/pic/pythonPachong/rightCheck.jpg" style="zoom:67%;" />
 
 <p>选中“NetWork”看下面这些文件哪些是我们需要爬取的排行榜里的数据文件，找了半天后终于看到是这个叫rank啥啥啥的：</p>
-<img src="http://116.62.150.158/pic/pythonPachong/rankFile.jpg" style="zoom: 80%;" />
+<img src="https://www.scorp1on.cn/pic/pythonPachong/rankFile.jpg" style="zoom: 80%;" />
 
 <p>双击文件后发现无法访问</p>
-<p><img src="http://116.62.150.158/pic/pythonPachong/cantVisit.jpg"></p>
+<p><img src="https://www.scorp1on.cn/pic/pythonPachong/cantVisit.jpg"></p>
 <p>这时候我们就要怀疑是不是请求的header里面少了些什么东西，对比一下请求成功与失败的hearer：</p>
-<p><img src="http://116.62.150.158/pic/pythonPachong/requestSuccess.jpg" alt="请求成功的header"></p>
-<p><img src="http://116.62.150.158/pic/pythonPachong/requestFail.jpg" alt="请求失败的header"></p>
+<p><img src="https://www.scorp1on.cn/pic/pythonPachong/requestSuccess.jpg" alt="请求成功的header"></p>
+<p><img src="https://www.scorp1on.cn/pic/pythonPachong/requestFail.jpg" alt="请求失败的header"></p>
 <p>可以发现请求成功的header里多了“Referer”字段，字面意思上应该代表的是从哪个页面跳转过来的吧，于是我们可以尝试在代码中将该字段添加至请求头中试一试。</p>
 <p>python我用的是requests库，基本使用方式如下：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">strhtml = requests.get(url=url, headers=headers, params=params)</span><br><span class="line">print(strhtml.text) <span class="comment">#将网页源代码以str格式输出</span></span><br></pre></td></tr></table></figure>
 <p>将请求头header、请求字段params以参数化方式进行请求：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests        </span><br><span class="line">        cookie = <span class="string">&#x27;_adsame_fullscreen_16928=1; ASP.NET_SessionId=thwusj35dst3cnhnkwl5g5fr; st_si=36429224065966; st_asi=delete; st_pvi=55007015028664; st_sp=2020-12-24%2010%3A19%3A50; st_inirUrl=https%3A%2F%2Fwww.baidu.com%2Flink; st_sn=9; st_psi=20201224103557863-0-3410041731&#x27;</span></span><br><span class="line">        url = <span class="string">&#x27;http://fund.eastmoney.com/data/rankhandler.aspx&#x27;</span></span><br><span class="line">        params = &#123;</span><br><span class="line">            <span class="string">&#x27;op&#x27;</span>: <span class="string">&#x27;ph&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;dt&#x27;</span>: <span class="string">&#x27;kf&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;ft&#x27;</span>: <span class="string">&#x27;all&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;rs&#x27;</span>: <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;gs&#x27;</span>: <span class="string">&#x27;0&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;sc&#x27;</span>: <span class="string">&#x27;zzf&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;st&#x27;</span>: <span class="string">&#x27;desc&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;sd&#x27;</span>: sd,</span><br><span class="line">            <span class="string">&#x27;ed&#x27;</span>: ed,</span><br><span class="line">            <span class="string">&#x27;qdii&#x27;</span>: <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;tabSubtype&#x27;</span>: <span class="string">&quot;, , , , ,&quot;</span>,</span><br><span class="line">            <span class="string">&#x27;pi&#x27;</span>: <span class="string">&#x27;1&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;pn&#x27;</span>: <span class="string">&#x27;50&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;dx&#x27;</span>: <span class="string">&#x27;1&#x27;</span></span><br><span class="line">        &#125;</span><br><span class="line">        headers = &#123;</span><br><span class="line">            <span class="string">&#x27;Cookie&#x27;</span>: cookie,</span><br><span class="line">            <span class="string">&#x27;Host&#x27;</span>: <span class="string">&#x27;fund.eastmoney.com&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;Referer&#x27;</span>: <span class="string">&#x27;http://fund.eastmoney.com/data/fundranking.html&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;User-Agent&#x27;</span>: <span class="string">&#x27;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36&#x27;</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        strhtml = requests.get(url=url, headers=headers, params=params)</span><br><span class="line">        print(strhtml.text)</span><br></pre></td></tr></table></figure>
 <p>其中请求字段params可以在这里看到：</p>
-<p><img src="http://116.62.150.158/pic/pythonPachong/requestParams.jpg" alt="请求对象"></p>
+<p><img src="https://www.scorp1on.cn/pic/pythonPachong/requestParams.jpg" alt="请求对象"></p>
 <p>据我后来考证，其中的“pi”字段代表的是排行榜的页数，1就是第一页；</p>
 <p>pn就是每页有多少数据，50就是一页五十条数据；</p>
 <p>sd、ed分别代表起始日期、结束日期。排行榜的数据就是根据这个日期来筛选的。</p>
 <p>测试一下，加上header字段后可以输出数据了：</p>
-<p><img src="http://116.62.150.158/pic/pythonPachong/print1.jpg"></p>
+<p><img src="https://www.scorp1on.cn/pic/pythonPachong/print1.jpg"></p>
 <p>仔细观察，发现这是一大串字符串，但是我们需要的是list格式的，因此可以使用findall和正则表达式进行截取：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#将...datas: 到 ,allRecords. 之间的字符串取出（所需的排行榜数据），然后再将allPages:后的数字取出（代表总共有多少页）</span></span><br><span class="line">cont = re.findall(<span class="string">&#x27;.*datas:(.*),allRecords.*allPages:(\\d*).*&#x27;</span>, strhtml.text)[<span class="number">0</span>]</span><br><span class="line">print(cont[<span class="number">0</span>]) <span class="comment">#所需排行榜数据</span></span><br><span class="line">total_page = cont[<span class="number">1</span>]</span><br><span class="line">print(total_page) <span class="comment">#总页数</span></span><br></pre></td></tr></table></figure>
 <p>我靠，我网上看了半天才弄明白这个findall和正则表达式（我太菜了。。），</p>
 <p>findall第一个参数放的是正则表达式，圆括号()里面包含的内容是需要截取的，然后\ 需要转义，也就是两道\\,</p>
 <p>如代表全部数字的\d要写成\\d。于是这样我们就取出了第一个元素是排行榜数据，第二个元素是总页数的list:</p>
-<p><img src="http://116.62.150.158/pic/pythonPachong/print2.jpg"></p>
+<p><img src="https://www.scorp1on.cn/pic/pythonPachong/print2.jpg"></p>
 <p>但是这还不够，因为我们的排行榜数据还是字符串格式，要把他再转换一下，这时候我们可以使用json库的loads方法：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json  </span><br><span class="line">list_cont = json.loads(cont[<span class="number">0</span>])</span><br><span class="line">print(list_cont)</span><br></pre></td></tr></table></figure>
-<p><img src="http://116.62.150.158/pic/pythonPachong/print3.jpg" alt="转为list"></p>
+<p><img src="https://www.scorp1on.cn/pic/pythonPachong/print3.jpg" alt="转为list"></p>
 <p>然后就可以照着之前操作excel文件那样把list保存到本地去啦！</p>
 <p>不过我还是遇到一个问题，就是假如已经有一个同名同路径文件存在，并被其他软件占用了（如WPS），这时候使用openyxl的save函数会闪退。。因此我在网上找了半天python如何判断文件是否被占用的方法，终于找到了一篇博客，说可以使用win32库。因此就有了下面这段代码：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">        <span class="keyword">import</span> win32file </span><br><span class="line">        folder_path = filedialog.askdirectory() <span class="comment">#自定义保存路径</span></span><br><span class="line">        <span class="keyword">if</span> folder_path <span class="keyword">is</span> <span class="literal">None</span> <span class="keyword">or</span> folder_path == <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">            print(<span class="string">&quot;not choose&quot;</span>)</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> folder_path.endswith(<span class="string">&quot;/&quot;</span>):</span><br><span class="line">            folder_path = folder_path + <span class="string">&quot;/&quot;</span></span><br><span class="line">        folder_path = folder_path + datetime.datetime.now().strftime(<span class="string">&#x27;%F_基金排行前五十&#x27;</span>) + <span class="string">&quot;.xlsx&quot;</span></span><br><span class="line">        print(<span class="string">&quot;save path: &quot;</span> + folder_path)</span><br><span class="line">        <span class="keyword">if</span> os.path.exists(folder_path): <span class="comment">#若文件已存在，才去判断是否被占用</span></span><br><span class="line">            print(<span class="string">&quot;file exist!&quot;</span>)</span><br><span class="line">            isused = self.is_used(folder_path)</span><br><span class="line">            <span class="keyword">if</span> isused:</span><br><span class="line">                messagebox.showinfo(<span class="string">&quot;提示&quot;</span>, <span class="string">&quot;当前文件 &quot;</span> + folder_path + <span class="string">&quot; 已被打开！请关闭后再操作！&quot;</span>)</span><br><span class="line">                <span class="keyword">return</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                wd.save(folder_path)</span><br><span class="line">                messagebox.showinfo(<span class="string">&quot;提示&quot;</span>, <span class="string">&quot;保存本地成功！路径：&quot;</span> + folder_path)</span><br><span class="line">        <span class="keyword">else</span>: <span class="comment">#文件不存在则直接保存</span></span><br><span class="line">            print(<span class="string">&quot;file not exist!&quot;</span>)</span><br><span class="line">            wd.save(folder_path)</span><br><span class="line">            messagebox.showinfo(<span class="string">&quot;提示&quot;</span>, <span class="string">&quot;保存本地成功！路径：&quot;</span> + folder_path)</span><br><span class="line">            </span><br><span class="line">    <span class="comment">#判断文件是否被占用        </span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">is_used</span>(<span class="params">self, file_path</span>):</span></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            vHandle = win32file.CreateFile(file_path, win32file.GENERIC_READ, <span class="number">0</span>, <span class="literal">None</span>, win32file.OPEN_EXISTING, <span class="number">0</span>, <span class="literal">None</span>) <span class="comment">#文件名、打开模式，第五个参数：</span></span><br><span class="line"><span class="comment">#CREATE_NEW:创建一个新文件。如果指定的文件已经存在，则该函数将失败。</span></span><br><span class="line"><span class="comment">#CREATE_ALWAYS:创建一个新文件。如果文件存在，该函数将覆盖文件并清除现有属性</span></span><br><span class="line"><span class="comment">#OPEN_EXISTING:打开该文件。如果文件不存在，函数将失败。如果您正在为设备(包括控制台)使用CreateFile函数，请参阅备注部分，以了解为什么应该使用OPEN_EXISTING标志</span></span><br><span class="line"><span class="comment">#OPEN_ALWAYS:如果文件存在，则打开该文件。如果该文件不存在，该函数将创建该文件，和dwcreationdispose是CREATE_NEW一样</span></span><br><span class="line"><span class="comment">#TRUNCATE_EXISTING:打开该文件。一旦打开，文件将被截断，使其大小为零字节。调用进程必须打开至少具有GENERIC_WRITE访问权限的文件。如果文件不存在，函数将失败</span></span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">int</span>(vHandle) == win32file.INVALID_HANDLE_VALUE</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">        <span class="keyword">finally</span>:</span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                win32file.CloseHandle(vHandle)</span><br><span class="line">            <span class="keyword">except</span>:</span><br><span class="line">                <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
 <p>运行结果：</p>
-<p><img src="http://116.62.150.158/pic/pythonPachong/isUsed.jpg"></p>
+<p><img src="https://www.scorp1on.cn/pic/pythonPachong/isUsed.jpg"></p>
 <p>最后再记录一下打包成exe的命令（pyinstaller）：</p>
 <p>首先先进入项目本地路径。然后按住shift键同时点击右键，打开powershell，输入以下命令：</p>
 <figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pyinstaller -<span class="literal">-hidden</span><span class="literal">-import</span>=pkg_resources <span class="operator">-F</span> <span class="literal">-w</span> <span class="literal">-p</span> D:\pythonProject\venv\Lib\site<span class="literal">-packages</span> main.py</span><br><span class="line"><span class="comment">#-F 生成单一执行文件；-w运行exe时不要弹出控制台；-p 指定扫描依赖包路径</span></span><br></pre></td></tr></table></figure>
@@ -554,15 +554,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Spring Boot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">防火墙</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">数据库连接失败</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Spring Boot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -602,11 +602,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">爬虫</a>
+                <a href="javascript:void(0)" class="js-tag color5">xlrd</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">xlrd</a>
+                <a href="javascript:void(0)" class="js-tag color3">爬虫</a>
               </li>
              
               <li class="article-tag-list-item">

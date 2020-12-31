@@ -15,16 +15,16 @@
 <meta property="og:site_name" content="ScorpioN">
 <meta property="og:description" content="最近做了评论和我的消息页面，主要就是别人在自己的帖子下评论了消息的话在我的消息页面可以显示出别人评论的内容和评论的哪一个帖子。点击的话可以跳转至该帖子，就是类似于百度贴吧的那种操作逻辑吧。  先上一下最终效果图：">
 <meta property="og:locale">
-<meta property="og:image" content="http://116.62.150.158/pic/wxxcxReply/reply.gif">
-<meta property="og:image" content="http://116.62.150.158/pic/wxxcxReply/mymessage.gif">
-<meta property="og:image" content="http://116.62.150.158/pic/wxxcxReply/reply.png">
+<meta property="og:image" content="https://www.scorp1on.cn/pic/wxxcxReply/reply.gif">
+<meta property="og:image" content="https://www.scorp1on.cn/pic/wxxcxReply/mymessage.gif">
+<meta property="og:image" content="https://www.scorp1on.cn/pic/wxxcxReply/reply.png">
 <meta property="article:published_time" content="2019-02-08T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-12-28T07:29:22.793Z">
+<meta property="article:modified_time" content="2020-12-31T06:57:27.211Z">
 <meta property="article:author" content="ScorpioN">
 <meta property="article:tag" content="微信小程序">
 <meta property="article:tag" content="JS">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://116.62.150.158/pic/wxxcxReply/reply.gif">
+<meta name="twitter:image" content="https://www.scorp1on.cn/pic/wxxcxReply/reply.gif">
   
     <link rel="alternative" href="/atom.xml" title="ScorpioN" type="application/atom+xml">
   
@@ -177,13 +177,13 @@
 <a id="more"></a>
 
 <p>评论:</p>
-<img src="http://116.62.150.158/pic/wxxcxReply/reply.gif" style="zoom:50%;" />
+<img src="https://www.scorp1on.cn/pic/wxxcxReply/reply.gif" style="zoom:50%;" />
 
 <p>我的消息:</p>
-<img src="http://116.62.150.158/pic/wxxcxReply/mymessage.gif" style="zoom: 33%;" />
+<img src="https://www.scorp1on.cn/pic/wxxcxReply/mymessage.gif" style="zoom: 33%;" />
 
 <p>我的大概思路就是在发布评论的时候同时向数据库中的reply表添加fatherID：回复的帖子的唯一ID；fatherOpenid：回复的帖子的发布人的唯一id；fatherTitle：回复的帖子的标题。这样就可以实现在我的消息中显示有谁回复了我的哪个帖子了。</p>
-<p><img src="http://116.62.150.158/pic/wxxcxReply/reply.png"></p>
+<p><img src="https://www.scorp1on.cn/pic/wxxcxReply/reply.png"></p>
 <p>下面给出具体代码：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * 发布评论</span><br><span class="line"> *&#x2F;</span><br><span class="line">formSubmit: function (e) &#123;</span><br><span class="line">  console.log(&#39;form发生了submit事件，携带数据为：&#39;, e.detail.value[&#39;reply&#39;])</span><br><span class="line">  this.data.reply &#x3D; e.detail.value[&#39;reply&#39;];</span><br><span class="line">  console.log(&quot;内容---&gt;&quot; + this.data.reply.trim());</span><br><span class="line">  if (this.data.canIUse) &#123;</span><br><span class="line">    &#x2F;&#x2F; if (this.data.images.length &gt; 0) &#123;</span><br><span class="line">    &#x2F;&#x2F;   this.saveDataToServer();</span><br><span class="line">    &#x2F;&#x2F; &#125; </span><br><span class="line">    &#x2F;&#x2F; else </span><br><span class="line">    if (this.data.reply.trim() !&#x3D; &#39;&#39;) &#123;</span><br><span class="line">      &#x2F;&#x2F; this.jugdeUserLogin();</span><br><span class="line">      this.saveDataToServer();</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      wx.showToast(&#123;</span><br><span class="line">        title: &#39;不能为空哦！&#39;,</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; </span><br><span class="line">  else &#123;</span><br><span class="line">    this.jugdeUserLogin();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;,</span><br><span class="line">&#x2F;**</span><br><span class="line"> * 保存到数据库中</span><br><span class="line"> *&#x2F;</span><br><span class="line">saveDataToServer: function (event) &#123;</span><br><span class="line">  var that &#x3D; this;</span><br><span class="line">  var a &#x3D; new Date();</span><br><span class="line">  that.data.time &#x3D; formatTime(new Date, &quot;Y-M-D h:m:s&quot;);</span><br><span class="line">  const db &#x3D; wx.cloud.database();</span><br><span class="line">  const topic &#x3D; db.collection(&#39;reply&#39;)</span><br><span class="line">  db.collection(&#39;reply&#39;).add(&#123;</span><br><span class="line">    &#x2F;&#x2F; data 字段表示需新增的 JSON 数据</span><br><span class="line">    data: &#123;</span><br><span class="line">      reply_text: that.data.reply,</span><br><span class="line">      pub_time: that.data.time,</span><br><span class="line">      &#x2F;&#x2F; images: that.data.images,</span><br><span class="line">      author_name: that.data.user,</span><br><span class="line">      fatherID: that.data.id, </span><br><span class="line">      fatherOpenid: that.data.openid,</span><br><span class="line">      fatherTitle: this.topic.title</span><br><span class="line">    &#125;,</span><br><span class="line">    success: function (res) &#123;</span><br><span class="line">      &#x2F;&#x2F; res 是一个对象，其中有 _id 字段标记刚创建的记录的 id</span><br><span class="line">      console.log(&quot;success----&gt;&quot; + res)</span><br><span class="line">      &#x2F;&#x2F; 保存到发布历史+</span><br><span class="line">      &#x2F;&#x2F; that.saveToHistoryServer();</span><br><span class="line">      &#x2F;&#x2F; 清空数据</span><br><span class="line">      a &#x3D; null;</span><br><span class="line">      that.setData(&#123;</span><br><span class="line">        reply: &#39;&#39;,</span><br><span class="line">        time: &#39;&#39;,</span><br><span class="line">        inputValue: &#39;&#39;,</span><br><span class="line">      &#125;)</span><br><span class="line">      wx.showToast(&#123;</span><br><span class="line">        title: &quot;评论成功！&quot;,</span><br><span class="line">      &#125;)</span><br><span class="line">      app.globalData.read &#x3D; false;</span><br><span class="line">      that.onPullDownRefresh();</span><br><span class="line">    &#125;,</span><br><span class="line">    complete: function (res) &#123;</span><br><span class="line">      console.log(&quot;complete----&gt;&quot; + res)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
 <p>我的消息页面就是判断数据库reply表中的fatherOpenid与当前用户的openid是否一样，一样就获取显示：</p>
@@ -521,15 +521,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Spring Boot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">防火墙</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">数据库连接失败</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Spring Boot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -569,11 +569,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">爬虫</a>
+                <a href="javascript:void(0)" class="js-tag color5">xlrd</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">xlrd</a>
+                <a href="javascript:void(0)" class="js-tag color3">爬虫</a>
               </li>
              
               <li class="article-tag-list-item">
